@@ -15,6 +15,8 @@ Inserire poi il valore x0 a cui far tendere la x nell'apposita casella di testo.
 
 Successivamente premere il pulsante "Calcola e genera grafico" per ottenere il risultato finale e il grafico.
 **IL GRAFICO NON E' DISPONIBILE ATTUALMENTE**
+## Screenshots
+
 
 ## PROGETTO REALIZZATO DA SAVERIO MORELLI
 ## LICENZA GNU v3, leggere file LICENSE
