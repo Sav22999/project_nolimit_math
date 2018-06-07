@@ -1,5 +1,5 @@
 ## NOLIMIT SVILUPPATO DA SAVERIO MORELLI - LICENZA GNU V3
-## VERSIONE SCRIPT V1.0
+## VERSIONE 0.1
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_noLimit(object):
