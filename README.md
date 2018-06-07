@@ -1,2 +1,10 @@
-# project_nolimit_math
-Progetto "NoLimit Math" in Python - GUI PyQt5 -> Calcolo automatizzato di limiti (semplici), finiti e indeterminati (0/0 o ∞/∞) e generazione del grafico relativo
+# Progetto NoLimit Math
+Il progetto "NoLimit Math" è sviluppato in Python, con GUI PyQt5.
+Il progetto è incentrato sul calcolo automatizzato di limiti (come (ax^2+bx+c)/(ax^2+bx+c)), finiti, infiniti o indeterminati (forme indeterminate calcolate: 0/0 o ∞/∞) e generazione del grafico relativo
+
+## PROGETTO REALIZZATO DA SAVERIO MORELLI
+## LICENZA GNU v3, leggere file LICENSE
+
+## Librerie utilizzate
+- PyQt5
+- Matplot
