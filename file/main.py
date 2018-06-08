@@ -1,6 +1,110 @@
-## NOLIMIT SVILUPPATO DA SAVERIO MORELLI - LICENZA GNU V3
-## VERSIONE 0.1
+## SOFTWARE SVILUPPATO DA SAVERIO MORELLI - LICENZA GNU V3
+## VERSIONE 0.8
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
+def calcolaNumDen(testo, x0):
+    print(testo)
+    print(len(testo))
+    array=list(testo)
+    print(array)
+    #inizio calcolo di "a"
+    a=0
+    if("x^2" in testo):
+        #print("Esiste ax^2")
+        volta=0
+        negativo=False
+        if(array[0]=="-"):
+            negativo=True
+            del array[0]
+        while(array[0]!="x"):
+            if(volta!=0):
+                a*=10;
+            volta+=1
+            a+=int(array[0]);
+            del array[0]
+        if(a==0):
+            a=1
+        if(negativo):
+            a*=-1;
+        #print("a = " + str(a))
+        del array[0]
+        del array[0]
+        del array[0]
+    #identificazione operazione da "a"
+    operazionedaa='+'
+    if(len(array)>=2 and (array[0]=="+" or array[0]=="-")):
+        operazionedaa=array[0]
+        del array[0]
+    #inizio calcolo di b
+    operazionedab=operazionedaa
+    b=0
+    if("x" in array):
+        #print("Esiste bx")
+        volta=0
+        negativo=False
+# =============================================================================
+#         if(len(array)>=4 and array[0]=="(" and array[1]=="-"):
+#             negativo=True
+#             del array[0]
+#             del array[0]
+# =============================================================================
+        while(array[0]!="x"):
+            if(volta!=0):
+                b*=10;
+            volta+=1
+            b+=int(array[0]);
+            del array[0]
+        if(b==0):
+            b=1
+        if(negativo):
+            b*=-1
+        #print("b = " + str(b))
+        del array[0]
+# =============================================================================
+#         if(array[0]==")"):
+#             del array[0]
+# =============================================================================
+        
+        if(len(array)>=2 and (array[0]=="+" or array[0]=="-")):
+            operazionedab=array[0]
+            del array[0]
+    #inizio calcolo di c
+    c=0
+    if(len(array)>=1):
+        #print("Esiste c")
+        volta=0
+        negativo=False
+# =============================================================================
+#         if(len(array)>=4 and array[0]=="(" and array[1]=="-"):
+#             negativo=True
+#             del array[0]
+#             del array[0]
+#             del array[len(array)-1]
+# =============================================================================
+        while(len(array)>0):
+            if(not volta==0):
+                c*=10;
+            volta+=1
+            c+=int(array[0]);
+            del array[0]
+        if(negativo):
+            c*=-1;
+        #print("c = " + str(c))
+    print(str(a) + "x^2" + str(operazionedaa) + str(b) + "x" + str(operazionedab) + str(c))
+    a=a*(x0**2)
+    b=b*(x0)
+    c=c
+    if(operazionedaa=="+"):
+        risultato=a+b
+    else:
+        risultato=a-b
+    
+    if(operazionedab=="+"):
+        risultato+=c
+    else:
+        risultato-=c
+    return risultato;
 
 class Ui_noLimit(object):
     def setupUi(self, noLimit):
@@ -115,212 +219,27 @@ class Ui_noLimit(object):
         
         self.textDenominatore.setText("1")
         self.bttCalcola.clicked.connect(self.onClickCalcola)
-        
+    
     def onClickCalcola(self):
         numeratore=1
         denominatore=1
-        x0=0
-        risultato=1
+        x0=float(self.textX.text())
+        risultato=1.0
+        
         if(self.textNumeratore.text()!=""):
             print("Numeratore: OK")
-            print(len(self.textNumeratore.text()))
-            array=list(self.textNumeratore.text())
-            print(array)
-# =============================================================================
-#             inizio calcolo di "a"
-# =============================================================================
-            a=0
-            if("x^2" in self.textNumeratore.text()):
-                print("Esiste ax^2")
-                volta=0
-                negativo=False
-                if(array[0]=="-"):
-                    negativo=True
-                    del array[0]
-                while(array[0]!="x"):
-                    if(volta!=0):
-                        a*=10;
-                    volta+=1
-                    a+=int(array[0]);
-                    del array[0]
-                if(a==0):
-                    a=1
-                if(negativo):
-                    a*=-1;
-                print("a = " + str(a))
-                del array[0]
-                del array[0]
-                del array[0]
-            print(array)
-# =============================================================================
-#             identificazione operazione da "a"
-# =============================================================================
-            operazionedaa='+'
-            if(len(array)>=2 and (array[0]=="+" or array[0]=="-")):
-                operazionedaa=array[0]
-                del array[0]
-# =============================================================================
-#             inizio calcolo di b
-# =============================================================================
-            operazionedab=operazionedaa
-            b=0
-            if("x" in array):
-                print("Esiste bx")
-                volta=0
-                negativo=False
-                if(len(array)>=4 and array[0]=="(" and array[1]=="-"):
-                    negativo=True
-                    del array[0]
-                    del array[0]
-                while(array[0]!="x"):
-                    if(volta!=0):
-                        b*=10;
-                    volta+=1
-                    b+=int(array[0]);
-                    del array[0]
-                if(b==0):
-                    b=1
-                if(negativo):
-                    b*=-1
-                print("b = " + str(b))
-                del array[0]
-                if(array[0]==")"):
-                    del array[0]
-                
-                if(len(array)>=2 and (array[0]=="+" or array[0]=="-")):
-                    operazionedab=array[0]
-                    del array[0]
-# =============================================================================
-#             inizio calcolo di c
-# =============================================================================
-            print(array)
-            c=0
-            if(len(array)>=1):
-                print("Esiste c")
-                volta=0
-                negativo=False
-                if(len(array)>=4 and array[0]=="(" and array[1]=="-"):
-                    negativo=True
-                    del array[0]
-                    del array[0]
-                    del array[len(array)-1]
-                    print(array)
-                print(array)
-                while(len(array)>0):
-                    if(not volta==0):
-                        c*=10;
-                    volta+=1
-                    c+=int(array[0]);
-                    del array[0]
-                if(negativo):
-                    c*=-1;
-                print("c = " + str(c))
-            print(str(a) + "x^2" + str(operazionedaa) + str(b) + "x" + str(operazionedab) + str(c))
-# =============================================================================
-#             operazione1=0
-#             if(operazionedaa)
-# =============================================================================
+            numeratore=calcolaNumDen(self.textNumeratore.text(), x0)
+            #print(numeratore)
         else:
             print("Numeratore: Error | Empty")
         
-        if(self.textDenominatore.text()!="" or self.textDenominatore.text()!="0"):
+        if(self.textDenominatore.text()!="" and self.textDenominatore.text()!="0"):
             if(self.textDenominatore.text()=="1"):
                 print("Denominatore: OK | Static (1)")
             else:
                 print("Denominatore: OK | Custom")
-                print(len(self.textDenominatore.text()))
-                array=list(self.textDenominatore.text())
-                print(array)
-# =============================================================================
-#            inizio calcolo di "a"
-# =============================================================================
-                a=0
-                if("x^2" in self.textDenominatore.text()):
-                    print("Esiste ax^2")
-                    volta=0
-                    negativo=False
-                    if(array[0]=="-"):
-                        negativo=True
-                        del array[0]
-                    while(array[0]!="x"):
-                        if(volta!=0):
-                            a*=10;
-                        volta+=1
-                        a+=int(array[0]);
-                        del array[0]
-                    if(a==0):
-                        a=1
-                    if(negativo):
-                        a*=-1;
-                    print("a = " + str(a))
-                    del array[0]
-                    del array[0]
-                    del array[0]
-                print(array)
-# =============================================================================
-#             identificazione operazione da "a"
-# =============================================================================
-                operazionedaa='+'
-                if(len(array)>=2 and (array[0]=="+" or array[0]=="-")):
-                    operazionedaa=array[0]
-                    del array[0]
-# =============================================================================
-#             inizio calcolo di b
-# =============================================================================
-                operazionedab=operazionedaa
-                b=0
-                if("x" in array):
-                    print("Esiste bx")
-                    volta=0
-                    negativo=False
-                    if(array[0]=="(" and array[1]=="-"):
-                        negativo=True
-                        del array[0]
-                        del array[0]
-                    while(array[0]!="x"):
-                        if(volta!=0):
-                            b*=10;
-                        volta+=1
-                        b+=int(array[0]);
-                        del array[0]
-                    if(b==0):
-                        b=1
-                    if(negativo):
-                        b*=-1
-                    print("b = " + str(b))
-                    del array[0]
-                    if(array[0]==")"):
-                        del array[0]
-                    
-                    if(len(array)>=2 and (array[0]=="+" or array[0]=="-")):
-                        operazionedab=array[0]
-                        del array[0]
-# =============================================================================
-#             inizio calcolo di c
-# =============================================================================
-                print(array)
-                c=0
-                if(len(array)>=1):
-                    print("Esiste c")
-                    volta=0
-                    negativo=False
-                    if(array[0]=="(" and array[1]=="-"):
-                        negativo=True
-                        del array[0]
-                        del array[0]
-                        del array[len(array)-1]
-                        print(array)
-                    print(array)
-                    while(len(array)>0):
-                        if(not volta==0):
-                            c*=10;
-                        volta+=1
-                        c+=int(array[0]);
-                        del array[0]
-                    if(negativo):
-                        c*=-1;
-                    print("c = " + str(c))
-                print(str(a) + "x^2" + str(operazionedaa) + str(b) + "x" + str(operazionedab) + str(c))
+                denominatore=calcolaNumDen(self.textDenominatore.text(), x0)
+                #print(denominatore)
                 
         elif(self.textDenominatore.text()=="0"):
             print("Denominatore: Error | ZeroDivision")
@@ -333,6 +252,12 @@ class Ui_noLimit(object):
             print("X(0): OK")
         else:
             print("X(0): Error | Empty")
+        
+        if(denominatore!=0):
+            if(numeratore!=0):
+                risultato=numeratore/denominatore
+        
+        self.textRisultato.setText(str(risultato))
 
 
 if __name__ == "__main__":
