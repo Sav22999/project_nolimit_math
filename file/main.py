@@ -1,5 +1,5 @@
 ## SOFTWARE SVILUPPATO DA SAVERIO MORELLI - LICENZA GNU V3
-## VERSIONE 0.8
+## VERSIONE 0.9
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -43,12 +43,6 @@ def calcolaNumDen(testo, x0):
         #print("Esiste bx")
         volta=0
         negativo=False
-# =============================================================================
-#         if(len(array)>=4 and array[0]=="(" and array[1]=="-"):
-#             negativo=True
-#             del array[0]
-#             del array[0]
-# =============================================================================
         while(array[0]!="x"):
             if(volta!=0):
                 b*=10;
@@ -61,10 +55,6 @@ def calcolaNumDen(testo, x0):
             b*=-1
         #print("b = " + str(b))
         del array[0]
-# =============================================================================
-#         if(array[0]==")"):
-#             del array[0]
-# =============================================================================
         
         if(len(array)>=2 and (array[0]=="+" or array[0]=="-")):
             operazionedab=array[0]
@@ -75,13 +65,6 @@ def calcolaNumDen(testo, x0):
         #print("Esiste c")
         volta=0
         negativo=False
-# =============================================================================
-#         if(len(array)>=4 and array[0]=="(" and array[1]=="-"):
-#             negativo=True
-#             del array[0]
-#             del array[0]
-#             del array[len(array)-1]
-# =============================================================================
         while(len(array)>0):
             if(not volta==0):
                 c*=10;
@@ -129,7 +112,7 @@ class Ui_noLimit(object):
         self.bttCalcola.setFont(font)
         self.bttCalcola.setObjectName("bttCalcola")
         self.textX = QtWidgets.QLineEdit(self.centralwidget)
-        self.textX.setGeometry(QtCore.QRect(50, 210, 31, 32))
+        self.textX.setGeometry(QtCore.QRect(50, 210, 40, 32))
         font = QtGui.QFont()
         font.setPointSize(16)
         self.textX.setFont(font)
@@ -154,13 +137,13 @@ class Ui_noLimit(object):
         self.textNumeratore.setFont(font)
         self.textNumeratore.setObjectName("textNumeratore")
         self.textDenominatore = QtWidgets.QLineEdit(self.centralwidget)
-        self.textDenominatore.setGeometry(QtCore.QRect(90, 190, 311, 32))
+        self.textDenominatore.setGeometry(QtCore.QRect(90, 183, 311, 32))
         font = QtGui.QFont()
         font.setPointSize(16)
         self.textDenominatore.setFont(font)
         self.textDenominatore.setObjectName("textDenominatore")
         self.line = QtWidgets.QFrame(self.centralwidget)
-        self.line.setGeometry(QtCore.QRect(80, 170, 331, 16))
+        self.line.setGeometry(QtCore.QRect(85, 170, 320, 16))
         self.line.setFrameShape(QtWidgets.QFrame.HLine)
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName("line")
@@ -208,7 +191,7 @@ class Ui_noLimit(object):
 
     def retranslateUi(self, noLimit):
         _translate = QtCore.QCoreApplication.translate
-        noLimit.setWindowTitle(_translate("noLimit", "NoLimit v.1 - by Saverio Morelli"))
+        noLimit.setWindowTitle(_translate("noLimit", "NoLimit Math v0.9 - by Saverio Morelli"))
         self.bttCalcola.setText(_translate("noLimit", "Calcola e\n"
 "genera il grafico"))
         self.label.setText(_translate("noLimit", "lim"))
@@ -223,7 +206,12 @@ class Ui_noLimit(object):
     def onClickCalcola(self):
         numeratore=1
         denominatore=1
-        x0=float(self.textX.text())
+        if(self.textX.text()!=""):
+            x0=float(self.textX.text())
+            print(x0)
+            print("X(0): OK")
+        else:
+            print("X(0): Error | Empty")
         risultato=1.0
         
         if(self.textNumeratore.text()!=""):
@@ -246,16 +234,24 @@ class Ui_noLimit(object):
         else:
             print("Denominatore: Error | Empty")
         
-        if(self.textX.text()!=""):
-            x0=self.textX.text()
-            print(x0)
-            print("X(0): OK")
-        else:
-            print("X(0): Error | Empty")
-        
         if(denominatore!=0):
             if(numeratore!=0):
                 risultato=numeratore/denominatore
+        else:
+            if(numeratore!=0):
+                denDes=calcolaNumDen(self.textDenominatore.text(), (x0+0.1))
+                denSin=calcolaNumDen(self.textDenominatore.text(), (x0-0.1))
+                self.textX.setText(self.textX.text()+"±")
+                if(denDes<0):
+                    if(numeratore<0):
+                        risultato="±∞"
+                    else:
+                        risultato="∓∞"
+                else:
+                    if(numeratore>0):
+                        risultato="±∞"
+                    else:
+                        risultato="∓∞"
         
         self.textRisultato.setText(str(risultato))
 
