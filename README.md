@@ -33,8 +33,7 @@ Sono presenti alcuni screenshots nella cartella "Screenshot"
 
 ## Librerie utilizzate
 - PyQt5
-- Matplot
-
+- Matplotlib
 ## Come collaborare
 Collaborare al progetto è molto semplice: è sufficiente aprire un nuovo issue in caso si vogliano aggiungere nuove funzionalità, successivamente si può procedere alla pr.
 NB. Viene effettuato il merge delle pr direttamente (e solamente) da Sav22999.
