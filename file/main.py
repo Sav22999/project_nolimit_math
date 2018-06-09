@@ -1,11 +1,10 @@
 ## SOFTWARE SVILUPPATO DA SAVERIO MORELLI - LICENZA GNU V3
-## VERSIONE 0.10
+## VERSIONE 1.0
 
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMenu, QVBoxLayout, QSizePolicy, QMessageBox, QWidget, \
     QPushButton
 from PyQt5.QtGui import QIcon
-import random
 import matplotlib
 # Make sure that we are using QT5
 matplotlib.use('Qt5Agg')
@@ -14,8 +13,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
-import random
 
+## TITOLO DEL PROGETTO CHE APPARE SULLA FINESTRA
+titolo_progetto_finestra="NoLimit Math v1 - by Saverio Morelli"
 
 def calcolaNumDen(testo, x0):
     print(testo)
@@ -204,12 +204,13 @@ class Ui_noLimit(QMainWindow):
 
         self.retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self)
-        self.plot = PlotCanvas(self, width=3.6, height=2.2)
-        self.plot.move(430, 50)
+        self.plot_canvas = PlotCanvas(self, width=3.6, height=2.2)
+        self.plot_canvas.move(430, 50)
+        #self.plot_canvas.hide()
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        self.setWindowTitle(_translate("noLimit", "NoLimit Math v0.9 - by Saverio Morelli"))
+        self.setWindowTitle(_translate("noLimit", titolo_progetto_finestra))
         self.bttCalcola.setText(_translate("noLimit", "Calcola e\n"
                                                       "genera il grafico"))
         self.label.setText(_translate("noLimit", "lim"))
@@ -226,64 +227,93 @@ class Ui_noLimit(QMainWindow):
 
 
     def onClickCalcola(self):
-        numeratore = 1
+        numeratore = 0
         denominatore = 1
         x0 = 0
-
-        if (self.textX.text() != ""):
-            if (self.textX.text() != "inf"):
-                x0 = float(self.textX.text())
-                print("X(0): OK | Normal")
-            else:
-                print("X(0): OK | Infinite")
-        else:
-            print("X(0): Error | Empty")
-        risultato = ''
-
-        if (self.textNumeratore.text() != ""):
-            print("Numeratore: OK")
-            numeratore = calcolaNumDen(self.textNumeratore.text(), x0)
-            # print(numeratore)
-        else:
-            print("Numeratore: Error | Empty")
-
-        if (self.textDenominatore.text() != "" and self.textDenominatore.text() != "0"):
-            if (self.textDenominatore.text() == "1"):
-                print("Denominatore: OK | Static (1)")
-            else:
-                print("Denominatore: OK | Custom")
-                denominatore = calcolaNumDen(self.textDenominatore.text(), x0)
-                # print(denominatore)
-
-        elif (self.textDenominatore.text() == "0"):
-            print("Denominatore: Error | ZeroDivision")
-        else:
-            print("Denominatore: Error | Empty")
-
-        if (denominatore != 0):
-            if (numeratore != 0):
-                risultato = numeratore / denominatore
-        else:
-            if (numeratore != 0):
-                denDes = calcolaNumDen(self.textDenominatore.text(), (x0 + 0.1))
-                # denSin=calcolaNumDen(self.textDenominatore.text(), (x0-0.1))
-                self.textX.setText(self.textX.text() + "±")
-                if (denDes < 0):
-                    if (numeratore < 0):
-                        risultato = "±∞"
-                    else:
-                        risultato = "∓∞"
+        risultato='-'
+        if("+-" in self.textX.text()): self.textX.setText(self.textX.text().replace("+-", "±"))
+        if("-+" in self.textX.text()): self.textX.setText(self.textX.text().replace("-+", "∓"))
+        if("±" in self.textX.text()): self.textX.setText(self.textX.text().replace("±", ""))
+        if("∓" in self.textX.text()): self.textX.setText(self.textX.text().replace("∓", ""))
+        if("inf" in self.textX.text()): self.textX.setText(self.textX.text().replace("inf", "∞"))
+        
+        if(self.textX.text()!="" and self.textNumeratore.text()!="" and self.textDenominatore.text()!="" and self.textDenominatore.text()!="0"):
+            if (self.textX.text() != ""):
+                if("∞" not in self.textX.text()):
+                    x0 = float(self.textX.text())
+                    print("X(0): OK | Normal")
                 else:
-                    if (numeratore > 0):
-                        risultato = "±∞"
+                    if(self.textX.text() == "∞"):
+                        print("X(0): OK | Infinite (general)")
+                    elif(self.textX.text() == "+∞"):
+                        print("X(0): OK | Infinite (positive)")
+                    elif(self.textX.text() == "-∞"):
+                        print("X(0): OK | Infinite (negative)")
+            risultato = '0'
+    
+            if (self.textNumeratore.text() != ""):
+                print("Numeratore: OK")
+                numeratore = calcolaNumDen(self.textNumeratore.text(), x0)
+                # print(numeratore)
+    
+            if (self.textDenominatore.text() != "" and self.textDenominatore.text() != "0"):
+                if (self.textDenominatore.text() == "1"):
+                    print("Denominatore: OK | Static (1)")
+                else:
+                    print("Denominatore: OK | Custom")
+                    denominatore = calcolaNumDen(self.textDenominatore.text(), x0)
+                    # print(denominatore)
+    
+            if (denominatore != 0):
+                if (numeratore != 0):
+                    risultato = numeratore / denominatore
+            else:
+                if (numeratore != 0):
+                    denDes = calcolaNumDen(self.textDenominatore.text(), (x0 + 0.1))
+                    # denSin=calcolaNumDen(self.textDenominatore.text(), (x0-0.1))
+                    self.textX.setText(self.textX.text() + "±")
+                    if (denDes < 0):
+                        if (numeratore < 0):
+                            risultato = "±∞"
+                        else:
+                            risultato = "∓∞"
                     else:
-                        risultato = "∓∞"
-        self.textRisultato.setText(str(risultato))
-
-        #qui facendo
-        #self.plot.plot(arrayX, arrayY,tipo_di_grafico, tutti i doc di matplot lib)
-        #fai il grafico
-
+                        if (numeratore > 0):
+                            risultato = "±∞"
+                        else:
+                            risultato = "∓∞"
+            self.textRisultato.setText(str(risultato))
+            
+            valNum=self.textNumeratore.text()
+            valDen=self.textDenominatore.text()
+            print("-->")
+            print(valDen)
+            p=0
+            n=0
+            listX1=[]
+            listX2=[]
+            listY1=[]
+            listY2=[]
+            for count in range(1,10):
+                p+=0.1
+                n-=0.1listX1.append(p)
+                listY1.append(calcolaNumDen(valNum, (x0 + p))/calcolaNumDen(valDen, (x0 + p)))
+                listX2.append(n)
+                listY2.append(calcolaNumDen(valNum, (x0 + n))/calcolaNumDen(valDen, (x0 + n)))
+                
+            # print(listX1)
+            # print(listY1)
+            # print(listX2)
+            # print(listY2)
+            self.plot_canvas.axes.cla()
+            self.plot_canvas.axes.plot(listX1,listY1, 'r', color='green')
+            self.plot_canvas.axes.plot(listX2,listY2, 'r', color='red')
+            self.plot_canvas.draw()
+        else:
+            if(self.textX.text()==""): print("X(0): Error | Empty")
+            if(self.textNumeratore.text()==""): print("Numeratore: Error | Empty")
+            if(self.textDenominatore.text()==""): print("Denominatore: Error | Empty")
+            if(self.textDenominatore.text()=="0"): print("Denominatore: Error | ZeroDivision")
 
 class PlotCanvas(FigureCanvas):
     """Ultimately, this is a QWidget (as well as a FigureCanvasAgg, etc.)."""
@@ -292,7 +322,7 @@ class PlotCanvas(FigureCanvas):
         fig = Figure(figsize=(width, height), dpi=dpi)
         self.axes = fig.add_subplot(111)
 
-        self.compute_initial_figure()
+        ##self.compute_initial_figure()
 
         FigureCanvas.__init__(self, fig)
         self.setParent(parent)
@@ -302,9 +332,9 @@ class PlotCanvas(FigureCanvas):
                                    QtWidgets.QSizePolicy.Expanding)
         FigureCanvas.updateGeometry(self)
 
-    def compute_initial_figure(self):
-         self.axes.plot([0, 1, 2, 3], [1, 2, 0, 4], 'r')
-
+    ##def compute_initial_figure(self):
+        
+        
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     ui = Ui_noLimit()
