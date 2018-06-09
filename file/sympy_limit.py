@@ -1,6 +1,6 @@
 from PyQt5 import uic, QtCore, QtWidgets
 import sys
-from sympy import limit, symbols
+from sympy import limit, symbols, SympifyError
 import matplotlib
 matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -36,10 +36,18 @@ class Ui_sympy(QtWidgets.QMainWindow, ui):
     def do_calc(self):
         #must do input check
         x = symbols('x')
-        result = limit(self.limit_expression.toPlainText(), x, self.limit_value.toPlainText())
+        try:
+            result = limit(self.limit_expression.toPlainText(), x, self.limit_value.toPlainText())
+        except SympifyError as err:
+            print(err)
+            result = 'error: ' + str(err)
+
         self.result.setText(str(result))
 
 if __name__ == "__main__":
+    print("per input mettere ** per elevare a potenza \n"
+          "* per moltiplicazione \n"
+          "oo per infinito")
     app = QtWidgets.QApplication(sys.argv)
     window = Ui_sympy()
     window.show()
