@@ -296,7 +296,8 @@ class Ui_noLimit(QMainWindow):
             listY2=[]
             for count in range(1,10):
                 p+=0.1
-                n-=0.1listX1.append(p)
+                n-=0.1
+                listX1.append(p)
                 listY1.append(calcolaNumDen(valNum, (x0 + p))/calcolaNumDen(valDen, (x0 + p)))
                 listX2.append(n)
                 listY2.append(calcolaNumDen(valNum, (x0 + n))/calcolaNumDen(valDen, (x0 + n)))
