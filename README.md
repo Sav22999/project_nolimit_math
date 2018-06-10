@@ -1,5 +1,5 @@
 ## PROGETTO DI SAVERIO MORELLI
-## LICENZA GNU v3, leggere file LICENSE
+## LICENZA GNU GPL v3, leggere file LICENSE
 
 ## Mappa README
 - Progetto NoLimit Math - Descrizione del progetto
