@@ -1,27 +1,25 @@
-## SOFTWARE SVILUPPATO DA SAVERIO MORELLI - LICENZA GNU V3
-## VERSIONE 1.0
+## SOFTWARE SVILUPPATO DA SAVER1O MORELLI - LICENZA GNU V3 || Software developed by Saverio Morelli - GNU V3 License
+## VERSIONE 1.2 - Version 1.2
 
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QMenu, QVBoxLayout, QSizePolicy, QMessageBox, QWidget, \
-    QPushButton
-from PyQt5.QtGui import QIcon
-import matplotlib
-# Make sure that we are using QT5
-matplotlib.use('Qt5Agg')
-
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import *
+import matplotlib
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 
-## TITOLO DEL PROGETTO CHE APPARE SULLA FINESTRA
-titolo_progetto_finestra="NoLimit Math v1 - by Saverio Morelli"
+# Make sure that we are using QT5
+matplotlib.use('Qt5Agg')
 
-def calcolaNumDen(testo, x0):
-    print(testo)
-    print(len(testo))
+## TITOLO DEL PROGETTO CHE APPARE SULLA FINESTRA || Project title which is shows on top the window
+titolo_progetto_finestra="NoLimit Math v1.2 - by SM"
+
+def calcolaNumDen(testo, x0, infinito):
+    #print(testo)
+    #print(len(testo))
     array = list(testo)
-    print(array)
+    #print(array)
     # inizio calcolo di "a"
     a = 0
     if ("x^2" in testo):
@@ -45,6 +43,7 @@ def calcolaNumDen(testo, x0):
         del array[0]
         del array[0]
         del array[0]
+        if(infinito): return a
     # identificazione operazione da "a"
     operazionedaa = '+'
     if (len(array) >= 2 and (array[0] == "+" or array[0] == "-")):
@@ -69,6 +68,7 @@ def calcolaNumDen(testo, x0):
             b *= -1
         # print("b = " + str(b))
         del array[0]
+        if (infinito): return b
 
         if (len(array) >= 2 and (array[0] == "+" or array[0] == "-")):
             operazionedab = array[0]
@@ -87,8 +87,9 @@ def calcolaNumDen(testo, x0):
             del array[0]
         if (negativo):
             c *= -1;
+        if (infinito): return c
         # print("c = " + str(c))
-    print(str(a) + "x^2" + str(operazionedaa) + str(b) + "x" + str(operazionedab) + str(c))
+    #print(str(a) + "x^2" + str(operazionedaa) + str(b) + "x" + str(operazionedab) + str(c))
     a = a * (x0 ** 2)
     b = b * (x0)
     c = c
@@ -102,6 +103,20 @@ def calcolaNumDen(testo, x0):
     else:
         risultato -= c
     return risultato;
+
+def calcolaX0(self, x):
+    x0=0.0
+    if ("∞" not in x):
+        x0 = float(x)
+        print("X(0): OK | Normal")
+    else:
+        if (x == "+∞"):
+            x0 = 9999
+            print("X(0): OK | Infinite (positive)")
+        elif (x == "-∞"):
+            x0 = -9999
+            print("X(0): OK | Infinite (negative)")
+    return x0
 
 
 class Ui_noLimit(QMainWindow):
@@ -159,12 +174,12 @@ class Ui_noLimit(QMainWindow):
         self.textDenominatore.setFont(font)
         self.textDenominatore.setObjectName("textDenominatore")
         self.line = QtWidgets.QFrame(self)
-        self.line.setGeometry(QtCore.QRect(85, 170, 320, 16))
+        self.line.setGeometry(QtCore.QRect(85, 177, 320, 3))
         self.line.setFrameShape(QtWidgets.QFrame.HLine)
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName("line")
         self.line_2 = QtWidgets.QFrame(self)
-        self.line_2.setGeometry(QtCore.QRect(403, -20, 20, 361))
+        self.line_2.setGeometry(QtCore.QRect(415, -20, 2, 361))
         self.line_2.setFrameShape(QtWidgets.QFrame.VLine)
         self.line_2.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_2.setObjectName("line_2")
@@ -188,6 +203,13 @@ class Ui_noLimit(QMainWindow):
         font.setPointSize(20)
         self.label_6.setFont(font)
         self.label_6.setObjectName("label_6")
+        self.bttVediGrafico = QtWidgets.QPushButton(self)
+        self.bttVediGrafico.setGeometry(QtCore.QRect(600, 280, 180, 61))
+        font = QtGui.QFont()
+        font.setPointSize(14)
+        self.bttVediGrafico.setFont(font)
+        self.bttVediGrafico.setObjectName("bttVediGrafico")
+        self.bttVediGrafico.hide()
         self.label.raise_()
         self.label_2.raise_()
         self.line.raise_()
@@ -197,9 +219,20 @@ class Ui_noLimit(QMainWindow):
         self.textNumeratore.raise_()
         self.textRisultato.raise_()
         self.bttCalcola.raise_()
+        self.bttVediGrafico.raise_()
         self.label_4.raise_()
         self.label_5.raise_()
         self.label_6.raise_()
+        css_btt="QPushButton{background-color:white;color:darkred;border:2px solid darkred;border-radius:5px;} QPushButton:hover{background-color:darkred;color:white;} QPushButton:pressed{background-color:red;border:0px;}"
+        self.bttCalcola.setStyleSheet(css_btt)
+        self.bttVediGrafico.setStyleSheet(css_btt)
+        css_txt="QLineEdit{background-color:transparent;color:darkred;border:0px solid transparent;border-bottom:1px solid darkred;opacity:.7;} QLineEdit:focus{border-bottom:2px solid red;opacity:1;}"
+        self.textRisultato.setStyleSheet(css_txt)
+        self.textNumeratore.setStyleSheet(css_txt)
+        self.textDenominatore.setStyleSheet(css_txt)
+        self.textX.setStyleSheet(css_txt)
+        self.line.setStyleSheet("background-color:black;")
+        self.line_2.setStyleSheet("background-color:darkred;")
         #noLimit.setCentralWidget(self.centralwidget)
 
         self.retranslateUi()
@@ -213,6 +246,8 @@ class Ui_noLimit(QMainWindow):
         self.setWindowTitle(_translate("noLimit", titolo_progetto_finestra))
         self.bttCalcola.setText(_translate("noLimit", "Calcola e\n"
                                                       "genera il grafico"))
+        self.bttVediGrafico.setText(_translate("noLimit", "Visualizza grafico\n"
+                                               "nel dettaglio"))
         self.label.setText(_translate("noLimit", "lim"))
         self.label_2.setText(_translate("noLimit", "x→"))
         self.label_4.setText(_translate("noLimit",
@@ -223,98 +258,177 @@ class Ui_noLimit(QMainWindow):
 
         self.textDenominatore.setText("1")
         self.bttCalcola.clicked.connect(self.onClickCalcola)
-
-
+        self.bttVediGrafico.clicked.connect(self.onClickVediGrafico)
 
     def onClickCalcola(self):
         numeratore = 0
         denominatore = 1
         x0 = 0
         risultato='-'
-        if("+-" in self.textX.text()): self.textX.setText(self.textX.text().replace("+-", "±"))
-        if("-+" in self.textX.text()): self.textX.setText(self.textX.text().replace("-+", "∓"))
-        if("±" in self.textX.text()): self.textX.setText(self.textX.text().replace("±", ""))
-        if("∓" in self.textX.text()): self.textX.setText(self.textX.text().replace("∓", ""))
-        if("inf" in self.textX.text()): self.textX.setText(self.textX.text().replace("inf", "∞"))
-        
-        if(self.textX.text()!="" and self.textNumeratore.text()!="" and self.textDenominatore.text()!="" and self.textDenominatore.text()!="0"):
-            if (self.textX.text() != ""):
-                if("∞" not in self.textX.text()):
-                    x0 = float(self.textX.text())
-                    print("X(0): OK | Normal")
-                else:
-                    if(self.textX.text() == "∞"):
-                        print("X(0): OK | Infinite (general)")
-                    elif(self.textX.text() == "+∞"):
-                        print("X(0): OK | Infinite (positive)")
-                    elif(self.textX.text() == "-∞"):
-                        print("X(0): OK | Infinite (negative)")
+        stringaX=self.textX.text()
+        if("+-" in stringaX): stringaX=stringaX.replace("+-", "±")
+        if("-+" in stringaX): stringaX=stringaX.replace("-+", "∓")
+        if("±" in stringaX): stringaX=stringaX.replace("±", "")
+        if("∓" in stringaX): stringaX=stringaX.text().replace("∓", "")
+        if(stringaX=="inf" or stringaX=="∞"): stringaX="+inf"
+        if("inf" in stringaX): stringaX=stringaX.replace("inf", "∞")
+        self.textX.setText(stringaX)
+
+        if(stringaX!="" and self.textNumeratore.text()!="" and self.textDenominatore.text()!="" and self.textDenominatore.text()!="0"):
+            if (stringaX != ""):
+                x0=calcolaX0(self, stringaX)
             risultato = '0'
-    
-            if (self.textNumeratore.text() != ""):
-                print("Numeratore: OK")
-                numeratore = calcolaNumDen(self.textNumeratore.text(), x0)
-                # print(numeratore)
-    
-            if (self.textDenominatore.text() != "" and self.textDenominatore.text() != "0"):
-                if (self.textDenominatore.text() == "1"):
-                    print("Denominatore: OK | Static (1)")
-                else:
-                    print("Denominatore: OK | Custom")
-                    denominatore = calcolaNumDen(self.textDenominatore.text(), x0)
-                    # print(denominatore)
-    
-            if (denominatore != 0):
-                if (numeratore != 0):
-                    risultato = numeratore / denominatore
-            else:
-                if (numeratore != 0):
-                    denDes = calcolaNumDen(self.textDenominatore.text(), (x0 + 0.1))
-                    # denSin=calcolaNumDen(self.textDenominatore.text(), (x0-0.1))
-                    self.textX.setText(self.textX.text() + "±")
-                    if (denDes < 0):
-                        if (numeratore < 0):
-                            risultato = "±∞"
-                        else:
-                            risultato = "∓∞"
+
+            if("∞" not in self.textX.text()):
+                if (self.textNumeratore.text() != ""):
+                    print("Numeratore: OK")
+                    numeratore = calcolaNumDen(self.textNumeratore.text(), x0, False)
+                    # print(numeratore)
+
+                if (self.textDenominatore.text() != "" and self.textDenominatore.text() != "0"):
+                    if (self.textDenominatore.text() == "1"):
+                        print("Denominatore: OK | Static (1)")
                     else:
-                        if (numeratore > 0):
-                            risultato = "±∞"
+                        print("Denominatore: OK | Custom")
+                        denominatore = calcolaNumDen(self.textDenominatore.text(), x0, False)
+                        # print(denominatore)
+
+                if (denominatore != 0):
+                    if (numeratore != 0):
+                        risultato = numeratore / denominatore
+                else:
+                    if (numeratore != 0):
+                        denDes = calcolaNumDen(self.textDenominatore.text(), (x0 + 0.00001), False)
+                        # denSin=calcolaNumDen(self.textDenominatore.text(), (x0 - 0.00001), False)
+                        self.textX.setText(stringaX + "±")
+                        if (denDes < 0):
+                            if (numeratore < 0):
+                                risultato = "±∞"
+                            else:
+                                risultato = "∓∞"
                         else:
-                            risultato = "∓∞"
+                            if (numeratore > 0):
+                                risultato = "±∞"
+                            else:
+                                risultato = "∓∞"
+            else:
+                if ("x^2" in self.textNumeratore.text()):
+                    if ("x^2" in self.textDenominatore.text()):
+                        aN = calcolaNumDen(self.textNumeratore.text(), x0, True)
+                        aD = calcolaNumDen(self.textDenominatore.text(), x0, True)
+                        risultato = aN / aD
+                    else:
+                        segnoNum=calcolaNumDen(self.textNumeratore.text(), x0, False)
+                        segnoDen=calcolaNumDen(self.textDenominatore.text(), x0, False)
+                        if(segnoNum>0 and segnoDen>0 or segnoNum<0 and segnoDen<0):
+                            risultato = "+∞"
+                        else:
+                            risultato = "-∞"
+                elif ("x" in self.textNumeratore.text()):
+                    if ("x^2" in self.textDenominatore.text()):
+                        segnoNum = calcolaNumDen(self.textNumeratore.text(), x0, False)
+                        segnoDen = calcolaNumDen(self.textDenominatore.text(), x0, False)
+                        risultato=0
+                    elif ("x" in self.textDenominatore.text()):
+                        bN = calcolaNumDen(self.textNumeratore.text(), x0, True)
+                        bD = calcolaNumDen(self.textDenominatore.text(), x0, True)
+                        risultato = bN / bD
+                    else:
+                        segnoNum = calcolaNumDen(self.textNumeratore.text(), x0, False)
+                        segnoDen = calcolaNumDen(self.textDenominatore.text(), x0, False)
+                        if (segnoNum > 0 and segnoDen > 0 or segnoNum < 0 and segnoDen < 0):
+                            risultato = "+∞"
+                        else:
+                            risultato = "-∞"
+                else:
+                    if ("x^2" in self.textDenominatore.text() or "x" in self.textDenominatore.text()):
+                        segnoNum = calcolaNumDen(self.textNumeratore.text(), x0, False)
+                        segnoDen = calcolaNumDen(self.textDenominatore.text(), x0, False)
+                        risultato=0
+                    else:
+                        cN = calcolaNumDen(self.textNumeratore.text(), x0, True)
+                        cD = calcolaNumDen(self.textDenominatore.text(), x0, True)
+                        risultato = cN / cD
             self.textRisultato.setText(str(risultato))
             
             valNum=self.textNumeratore.text()
             valDen=self.textDenominatore.text()
-            print("-->")
+            """print("Numeratore:")
             print(valDen)
-            p=0
-            n=0
+            print("Denominatore:")
+            print(valDen)"""
+            i = 0
             listX1=[]
             listX2=[]
             listY1=[]
             listY2=[]
-            for count in range(1,10):
-                p+=0.1
-                n-=0.1
-                listX1.append(p)
-                listY1.append(calcolaNumDen(valNum, (x0 + p))/calcolaNumDen(valDen, (x0 + p)))
-                listX2.append(n)
-                listY2.append(calcolaNumDen(valNum, (x0 + n))/calcolaNumDen(valDen, (x0 + n)))
+            for count in range(0,100):
+                try:
+                    num = float(calcolaNumDen(valNum, (x0 + i), False) / calcolaNumDen(valDen, (x0 + i), False))
+                    num = float(calcolaNumDen(valNum, (x0 - i), False) / calcolaNumDen(valDen, (x0 - i), False))
+                except ZeroDivisionError:
+                    i += 0.01
+                listX1.append(x0 + i)
+                listY1.append(calcolaNumDen(valNum, (x0 + i), False)/calcolaNumDen(valDen, (x0 + i), False))
+                listX2.append(x0 - i)
+                listY2.append(calcolaNumDen(valNum, (x0 - i), False)/calcolaNumDen(valDen, (x0 - i), False))
+                if(x0==9999 or x0==-9999):
+                    i += 1000
+                else:
+                    i += 0.01
                 
             # print(listX1)
             # print(listY1)
             # print(listX2)
             # print(listY2)
             self.plot_canvas.axes.cla()
-            self.plot_canvas.axes.plot(listX1,listY1, 'r', color='green')
+            self.plot_canvas.axes.plot(listX1,listY1, 'r', color='red')
             self.plot_canvas.axes.plot(listX2,listY2, 'r', color='red')
             self.plot_canvas.draw()
+
+            self.bttVediGrafico.show()
         else:
-            if(self.textX.text()==""): print("X(0): Error | Empty")
+            if(stringaX==""): print("X(0): Error | Empty")
             if(self.textNumeratore.text()==""): print("Numeratore: Error | Empty")
             if(self.textDenominatore.text()==""): print("Denominatore: Error | Empty")
             if(self.textDenominatore.text()=="0"): print("Denominatore: Error | ZeroDivision")
+
+    def onClickVediGrafico(self):
+        stringaX = self.textX.text()
+        if ("+-" in stringaX): stringaX = stringaX.replace("+-", "±")
+        if ("-+" in stringaX): stringaX = stringaX.replace("-+", "∓")
+        if ("±" in stringaX): stringaX = stringaX.replace("±", "")
+        if ("∓" in stringaX): stringaX = stringaX.text().replace("∓", "")
+        if (stringaX == "inf" or stringaX == "∞"): stringaX = "+inf"
+        if ("inf" in stringaX): stringaX = stringaX.replace("inf", "∞")
+        self.textX.setText(stringaX)
+        if(stringaX!=""):
+            x0 = calcolaX0(self, stringaX)
+        valNum = self.textNumeratore.text()
+        valDen = self.textDenominatore.text()
+        i = 0
+        listX1 = []
+        listX2 = []
+        listY1 = []
+        listY2 = []
+        for count in range(0, 1000):
+            try:
+                num = float(calcolaNumDen(valNum, (x0 + i), False) / calcolaNumDen(valDen, (x0 + i), False))
+                num = float(calcolaNumDen(valNum, (x0 - i), False) / calcolaNumDen(valDen, (x0 - i), False))
+            except ZeroDivisionError:
+                i += 0.001
+            listX1.append(x0 + i)
+            listY1.append(calcolaNumDen(valNum, (x0 + i), False) / calcolaNumDen(valDen, (x0 + i), False))
+            listX2.append(x0 - i)
+            listY2.append(calcolaNumDen(valNum, (x0 - i), False) / calcolaNumDen(valDen, (x0 - i), False))
+            if (x0 == 9999 or x0 == -9999):
+                i += 1000
+            else:
+                i += 0.001
+        grafico_dettagliato=Grafico(self)
+        grafico_dettagliato.setGrafico(listX1, listY1, 'r', 'red')
+        grafico_dettagliato.setGrafico(listX2, listY2, 'r', 'red')
+        grafico_dettagliato.showGrafico()
 
 class PlotCanvas(FigureCanvas):
     """Ultimately, this is a QWidget (as well as a FigureCanvasAgg, etc.)."""
@@ -334,8 +448,18 @@ class PlotCanvas(FigureCanvas):
         FigureCanvas.updateGeometry(self)
 
     ##def compute_initial_figure(self):
-        
-        
+
+class Grafico(QMainWindow):
+    def __init__(self, parent=None):
+        QtWidgets.QMainWindow.__init__(self)
+        self.showGrafico()
+
+    def setGrafico(self, x, y, type, color):
+        plt.plot(x, y, type, color=color)
+
+    def showGrafico(self):
+        plt.show()
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     ui = Ui_noLimit()

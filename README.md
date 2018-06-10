@@ -13,7 +13,7 @@
 # Progetto NoLimit Math
 Il progetto "NoLimit Math" è sviluppato in Python, con GUI PyQt5.
 Il progetto è incentrato sul calcolo automatizzato di limiti (come (ax^2+bx+c)/(ax^2+bx+c)), finiti, infiniti o indeterminati (forma indeterminata calcolata: ∞/∞) e generazione del grafico relativo.
-NoLimit Math è nato, principalmente, come progetto per la "tesina" degli esami di maturità: INFORMATICA applicata alla MATEMATICA, al concetto di limite.
+NoLimit Math è nato, principalmente, come progetto per la "tesina" degli esami di maturità (titolo tesina "Oltre i limiti", IIS settore Informatica): INFORMATICA applicata alla MATEMATICA, al concetto di limite matematico.
 
 ## Linguaggio di programmazione utilizzato e file principale del progetto
 Il linguaggio utilizzato è il Python(3), e il file principale è "main.py", presente nella cartella "File".
@@ -28,15 +28,21 @@ Inserire poi il valore x0 a cui far tendere la x nell'apposita casella di testo.
 
 Successivamente premere il pulsante "Calcola e genera grafico" per ottenere il risultato finale e il grafico.
 
+Se si vuole visualizzare in maniera più accurata il grafico sarà sufficiente premere sul pulsante che compare dopo aver premuto su "Calcola e genera grafico", ovvero "Visualizza grafico nel dettaglio".
+
 ## Screenshots
-Sono presenti alcuni screenshots nella cartella "Screenshot"
+Sono presenti alcuni screenshots del software nella cartella "screenshot"
 
 ## Librerie utilizzate
 - PyQt5
 - Matplotlib
+- Sympy (per versione "sympy")
+
 ## Come collaborare
 Collaborare al progetto è molto semplice: è sufficiente aprire un nuovo issue in caso si vogliano aggiungere nuove funzionalità, successivamente si può procedere alla pr.
-NB. Viene effettuato il merge delle pr direttamente (e solamente) da Sav22999.
+Si può collaborare anche solo segnalando un problema o un consiglio.
+
+**NB. Viene effettuato il merge delle pr direttamente (e solamente) da Sav22999.**
 
 ## Collaboratori
 - Sav22999 - Saverio Morelli
