@@ -9,6 +9,7 @@
 - Librerie utilizzate
 - Come collaborare
 - Collaboratori
+- OS su cui è testato il software
 
 # Progetto NoLimit Math
 Il progetto "NoLimit Math" è sviluppato in Python, con GUI PyQt5.
@@ -43,6 +44,9 @@ Collaborare al progetto è molto semplice: è sufficiente aprire un nuovo issue 
 Si può collaborare anche solo segnalando un problema o un consiglio.
 
 **NB. Viene effettuato il merge delle pr direttamente (e solamente) da Sav22999.**
+
+## OS su cui è testato il software
+- Sav22999 utilizza "Kubuntu 18.04": SOFTWARE FUNZIONA CORRETTAMENTE
 
 ## Collaboratori
 - Sav22999 - Saverio Morelli
