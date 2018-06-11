@@ -1,5 +1,5 @@
 ## SOFTWARE SVILUPPATO DA SAVER1O MORELLI - LICENZA GNU V3 || Software developed by Saverio Morelli - GNU V3 License
-## VERSIONE 1.2 - Version 1.2
+## VERSIONE 1.3 - Version 1.3
 
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 matplotlib.use('Qt5Agg')
 
 ## TITOLO DEL PROGETTO CHE APPARE SULLA FINESTRA || Project title which is shows on top the window
-titolo_progetto_finestra="NoLimit Math v1.2 - by SM"
+titolo_progetto_finestra="NoLimit Math v1.3 - by SM"
 
 def calcolaNumDen(testo, x0, infinito):
     #print(testo)
@@ -373,7 +373,7 @@ class Ui_noLimit(QMainWindow):
                 listX2.append(x0 - i)
                 listY2.append(calcolaNumDen(valNum, (x0 - i), False)/calcolaNumDen(valDen, (x0 - i), False))
                 if(x0==9999 or x0==-9999):
-                    i += 1000
+                    i += 100
                 else:
                     i += 0.01
                 
@@ -382,6 +382,8 @@ class Ui_noLimit(QMainWindow):
             # print(listX2)
             # print(listY2)
             self.plot_canvas.axes.cla()
+            self.plot_canvas.axes.plot([min([min(listX1),min(listX2)]),-1,0,1,max([max(listX1),max(listX2)])], [0,0,0,0,0], 'r', color='black')
+            self.plot_canvas.axes.plot([0,0,0,0,0], [min([min(listY1),min(listY2)]),-1,0,1,max([max(listY1),max(listY2)])], 'r', color='black')
             self.plot_canvas.axes.plot(listX1,listY1, 'r', color='red')
             self.plot_canvas.axes.plot(listX2,listY2, 'r', color='red')
             self.plot_canvas.draw()
@@ -422,10 +424,12 @@ class Ui_noLimit(QMainWindow):
             listX2.append(x0 - i)
             listY2.append(calcolaNumDen(valNum, (x0 - i), False) / calcolaNumDen(valDen, (x0 - i), False))
             if (x0 == 9999 or x0 == -9999):
-                i += 1000
+                i += 50
             else:
                 i += 0.001
         grafico_dettagliato=Grafico(self)
+        grafico_dettagliato.setGrafico([min([min(listX1),min(listX2)]),-1,0,1,max([max(listX1),max(listX2)])], [0,0,0,0,0], 'r', 'black')
+        grafico_dettagliato.setGrafico([0,0,0,0,0], [min([min(listY1),min(listY2)]),-1,0,1,max([max(listY1),max(listY2)])], 'r', 'black')
         grafico_dettagliato.setGrafico(listX1, listY1, 'r', 'red')
         grafico_dettagliato.setGrafico(listX2, listY2, 'r', 'red')
         grafico_dettagliato.showGrafico()
