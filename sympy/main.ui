@@ -89,6 +89,17 @@
      <string>calculate and generate graph</string>
     </property>
    </widget>
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>50</y>
+      <width>431</width>
+      <height>401</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="layout_plot"/>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -110,7 +121,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionabout">
    <property name="text">
-    <string>about</string>
+    <string>&amp;about</string>
    </property>
   </action>
  </widget>
