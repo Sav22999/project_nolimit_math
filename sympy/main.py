@@ -2,6 +2,7 @@ from PyQt5 import uic, QtWidgets, QtGui
 import sys
 from sympy import limit, lambdify, SympifyError, symbols
 from sympy.abc import x
+import sympy
 import numpy as np
 import matplotlib
 matplotlib.use('Qt5Agg')
@@ -42,7 +43,9 @@ class Ui_sympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
     def do_calc(self):
         def do_plot(expression):
             x_val = np.arange( -100, 100, 0.1)
-            x = symbols('x')
+            # x = symbols('x')
+            print(expression)
+            expression = sympy.parsing.sympy_parser.parse_expr(expression)
             x_lam = lambdify(x, expression, modules=["numpy"])
             y_val = x_lam(x_val)
             self.plot_canvas.axes.cla()

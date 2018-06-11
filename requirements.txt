@@ -1,0 +1,3 @@
+sympy
+PyQt5
+numpy
