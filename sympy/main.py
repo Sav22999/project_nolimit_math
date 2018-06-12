@@ -1,19 +1,23 @@
 from PyQt5 import uic, QtWidgets, QtGui
 import sys
-from sympy import limit, lambdify, SympifyError, symbols
+
+from sympy import limit, lambdify, SympifyError, latex
 from sympy.abc import x
-import sympy
+from sympy.parsing.sympy_parser import parse_expr
+
 import numpy as np
 import matplotlib
 matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
+import unittest
 
 UI_FILE = "main.ui"
 
+# import typing should add types
 
-ui, _ = uic.loadUiType("main.ui")
+
 class PlotCanvas(FigureCanvas):
     """Ultimately, this is a QWidget (as well as a FigureCanvasAgg, etc.)."""
 
@@ -29,8 +33,22 @@ class PlotCanvas(FigureCanvas):
                                    QtWidgets.QSizePolicy.Expanding)
         FigureCanvas.updateGeometry(self)
 
+        # initialize empty array for x and y
+        self.x_val = np.arange( -100, 100, 0.1)
+        self.y_val = np.empty((2000))
 
-class Ui_sympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
+    def plot_sympy_expression(self, expr):
+
+        x_lam = lambdify(x, expr, modules=["numpy"])
+        self.y_val[:] = np.array(x_lam(self.x_val))
+
+        self.axes.cla()
+        self.axes.plot(self.x_val, self.y_val, 'r', label=latex(expr))
+        self.draw()
+        self.axes.legend()
+
+
+class uiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -39,44 +57,37 @@ class Ui_sympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
 
         self.calculate.clicked.connect(self.do_calc)
         self.limit_expression.textChanged.connect(self.do_calc)
+        self.limit_value.textChanged.connect(self.do_calc)
 
     def do_calc(self):
-        def do_plot(expression):
-            x_val = np.arange( -100, 100, 0.1)
-            # x = symbols('x')
-            print(expression)
-            expression = sympy.parsing.sympy_parser.parse_expr(expression)
-            x_lam = lambdify(x, expression, modules=["numpy"])
-            y_val = x_lam(x_val)
-            self.plot_canvas.axes.cla()
-            self.plot_canvas.axes.plot(x_val, y_val, 'r')
-            self.plot_canvas.draw()
-            # plt.plot(x_val, y_val, 'r')
-            # plt.show()
-        #must do input check
-        #clear text and color
         self.result.setTextColor(QtGui.QColor('black'))
-        self.result.setText("")
+        self.result.setText("")   # may not be very efficient
 
         try:
-            result = limit(self.limit_expression.toPlainText(), x, self.limit_value.toPlainText())
-            do_plot(self.limit_expression.toPlainText())
-        except (SympifyError) as err:
+            expression = parse_expr(self.limit_expression.toPlainText())
+            # check there is only Symbol('x') in the expression
+            if expression.free_symbols != {'x'}: raise SympifyError
+            result = limit(expression, x, self.limit_value.toPlainText())
+            self.plot_canvas.plot_sympy_expression(expression)
+        except (SympifyError, SyntaxError) as err:
             print(err)
             result = 'error: invalid input'
             self.result.setTextColor(QtGui.QColor('red'))
 
         self.result.setText(str(result))
 
-        # plotting
-        # convert to numpy array
-
-
+class testPlotCanvas(unittest.TestSuite):
+    def setUp(self):
+        pass
+    def test_plot_sympy_expression_with_constant_value(self):
+        ui = PlotCanvas(QtWidgets.QMainWindow())
+        ui.plot_sympy_expression(3)
+        ui.show()
 if __name__ == "__main__":
     print("per input mettere ** per elevare a potenza \n"
           "* per moltiplicazione \n"
           "oo per infinito")
     app = QtWidgets.QApplication(sys.argv)
-    window = Ui_sympy()
+    window = uiSympy()
     window.show()
     sys.exit(app.exec_())
