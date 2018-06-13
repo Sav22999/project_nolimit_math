@@ -5,6 +5,7 @@ import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
 import matplotlib
+matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
@@ -17,7 +18,7 @@ else:
 
 
 # Make sure that we are using QT5
-matplotlib.use('Qt5Agg')
+
 
 ## TITOLO DEL PROGETTO CHE APPARE SULLA FINESTRA || Project title which is shows on top the window
 titolo_progetto_finestra="NoLimit Math v1.3 - by SM"
@@ -455,7 +456,6 @@ class Ui_noLimit(QMainWindow):
 
 
     def onClickSympy(self):
-        print("opening sympy")
         self.sympy_window= UiSympy()
         self.sympy_window.show()
 
@@ -491,8 +491,12 @@ class Grafico(QMainWindow):
     def showGrafico(self):
         plt.show()
 
-if __name__ == "__main__":
+def main():
     app = QtWidgets.QApplication(sys.argv)
     ui = Ui_noLimit()
     ui.show()
     sys.exit(app.exec_())
+
+
+if __name__ == "__main__":
+    main()

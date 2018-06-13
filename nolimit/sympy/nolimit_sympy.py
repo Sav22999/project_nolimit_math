@@ -91,9 +91,10 @@ class UiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
         self.result.setText(str(result))
 
 
-
-if __name__ == "__main__":
+def main():
     app = QtWidgets.QApplication(sys.argv)
     window = UiSympy()
     window.show()
     sys.exit(app.exec_())
+if __name__ == "__main__":
+    main()
