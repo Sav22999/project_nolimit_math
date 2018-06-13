@@ -66,7 +66,10 @@ class uiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
         try:
             expression = parse_expr(self.limit_expression.toPlainText())
             # check there is only Symbol('x') in the expression
-            if expression.free_symbols != {'x'}: raise SympifyError
+            symbols = expression.free_symbols
+            if symbols != set([x]) and symbols != set([]):
+                raise SympifyError("symblos not allowed could use only x") # to go in except (!) not the best
+            #  calculate the limit and plot
             result = limit(expression, x, self.limit_value.toPlainText())
             self.plot_canvas.plot_sympy_expression(expression)
         except (SympifyError, SyntaxError) as err:
