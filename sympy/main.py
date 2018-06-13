@@ -4,6 +4,7 @@ import sys
 from sympy import limit, lambdify, SympifyError, latex
 from sympy.abc import x
 from sympy.parsing.sympy_parser import parse_expr
+from sympy.parsing.sympy_tokenize import TokenError
 
 import numpy as np
 import matplotlib
@@ -72,20 +73,14 @@ class uiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
             #  calculate the limit and plot
             result = limit(expression, x, self.limit_value.toPlainText())
             self.plot_canvas.plot_sympy_expression(expression)
-        except (SympifyError, SyntaxError) as err:
+        except (SympifyError, SyntaxError, TokenError) as err:
             print(err)
             result = 'error: invalid input'
             self.result.setTextColor(QtGui.QColor('red'))
 
         self.result.setText(str(result))
 
-class testPlotCanvas(unittest.TestSuite):
-    def setUp(self):
-        pass
-    def test_plot_sympy_expression_with_constant_value(self):
-        ui = PlotCanvas(QtWidgets.QMainWindow())
-        ui.plot_sympy_expression(3)
-        ui.show()
+
 if __name__ == "__main__":
     print("per input mettere ** per elevare a potenza \n"
           "* per moltiplicazione \n"
