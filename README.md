@@ -50,7 +50,7 @@ Si può collaborare anche solo segnalando un problema o un consiglio.
 Sono stati effettuati differenti test sui seguenti sistemi operativi, sui quali è garantita la compatibilità:
 - Kubuntu (18.04)
 - Ubuntu (18.04)
-- Windows 10 (Home) - presenta alcuni problemi: non apre il grafico dettagliato
+- Windows 10 (Home)
 
 ## Collaboratori
 - Sav22999 - Saverio Morelli
