@@ -1,20 +1,20 @@
 from PyQt5 import uic, QtWidgets, QtGui
 import sys
+import os
 
 from sympy import limit, lambdify, SympifyError, latex
 from sympy.abc import x
 from sympy.parsing.sympy_parser import parse_expr
 from sympy.parsing.sympy_tokenize import TokenError
+from sympy.plotting import plot
 
 import numpy as np
 import matplotlib
 matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-import matplotlib.pyplot as plt
-import unittest
 
-UI_FILE = "main.ui"
+UI_FILE = fn = os.path.join(os.path.dirname(__file__), "nolimit_sympy.ui")
 
 # import typing should add types
 
@@ -49,20 +49,27 @@ class PlotCanvas(FigureCanvas):
         self.axes.legend()
 
 
-class uiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
+class UiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("../icona.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.setWindowIcon(icon)
+
         self.plot_canvas = PlotCanvas(self)
         self.layout_plot.addWidget(self.plot_canvas)
 
         self.calculate.clicked.connect(self.do_calc)
         self.limit_expression.textChanged.connect(self.do_calc)
         self.limit_value.textChanged.connect(self.do_calc)
+        self.show_details.stateChanged.connect(self.do_calc)
 
     def do_calc(self):
         self.result.setTextColor(QtGui.QColor('black'))
         self.result.setText("")   # may not be very efficient
+
 
         try:
             expression = parse_expr(self.limit_expression.toPlainText())
@@ -73,6 +80,9 @@ class uiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
             #  calculate the limit and plot
             result = limit(expression, x, self.limit_value.toPlainText())
             self.plot_canvas.plot_sympy_expression(expression)
+            if self.show_details.isChecked():
+                plot(expression, legend="this is a label")
+                #  self.show_details.setChecked(False) it he user is lazy
         except (SympifyError, SyntaxError, TokenError) as err:
             print(err)
             result = 'error: invalid input'
@@ -81,11 +91,9 @@ class uiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
         self.result.setText(str(result))
 
 
+
 if __name__ == "__main__":
-    print("per input mettere ** per elevare a potenza \n"
-          "* per moltiplicazione \n"
-          "oo per infinito")
     app = QtWidgets.QApplication(sys.argv)
-    window = uiSympy()
+    window = UiSympy()
     window.show()
     sys.exit(app.exec_())

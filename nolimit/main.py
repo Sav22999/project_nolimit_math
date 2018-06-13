@@ -9,6 +9,13 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 
+if __name__ == "__main__":
+    from nolimit.sympy.nolimit_sympy import UiSympy
+else:
+    from .sympy.nolimit_sympy import UiSympy
+
+
+
 # Make sure that we are using QT5
 matplotlib.use('Qt5Agg')
 
@@ -210,6 +217,14 @@ class Ui_noLimit(QMainWindow):
         self.bttVediGrafico.setFont(font)
         self.bttVediGrafico.setObjectName("bttVediGrafico")
         self.bttVediGrafico.hide()
+
+        self.bttSympy = QtWidgets.QPushButton(self)
+        self.bttSympy.setGeometry(QtCore.QRect(100, 280, 180, 61))
+        font = QtGui.QFont()
+        font.setPointSize(14)
+        self.bttSympy.setFont(font)
+        self.bttVediGrafico.setObjectName("bttSympy")
+
         self.label.raise_()
         self.label_2.raise_()
         self.line.raise_()
@@ -220,11 +235,13 @@ class Ui_noLimit(QMainWindow):
         self.textRisultato.raise_()
         self.bttCalcola.raise_()
         self.bttVediGrafico.raise_()
+        self.bttSympy.raise_()
         self.label_4.raise_()
         self.label_5.raise_()
         self.label_6.raise_()
         css_btt="QPushButton{background-color:white;color:darkred;border:2px solid darkred;border-radius:5px;} QPushButton:hover{background-color:darkred;color:white;} QPushButton:pressed{background-color:red;border:0px;}"
         self.bttCalcola.setStyleSheet(css_btt)
+        self.bttSympy.setStyleSheet(css_btt)
         self.bttVediGrafico.setStyleSheet(css_btt)
         css_txt="QLineEdit{background-color:transparent;color:darkred;border:0px solid transparent;border-bottom:1px solid darkred;opacity:.7;} QLineEdit:focus{border-bottom:2px solid red;opacity:1;}"
         self.textRisultato.setStyleSheet(css_txt)
@@ -248,6 +265,7 @@ class Ui_noLimit(QMainWindow):
                                                       "genera il grafico"))
         self.bttVediGrafico.setText(_translate("noLimit", "Visualizza grafico\n"
                                                "nel dettaglio"))
+        self.bttSympy.setText(_translate("calcola limite con sympy", "sympy"))
         self.label.setText(_translate("noLimit", "lim"))
         self.label_2.setText(_translate("noLimit", "x→"))
         self.label_4.setText(_translate("noLimit",
@@ -259,6 +277,7 @@ class Ui_noLimit(QMainWindow):
         self.textDenominatore.setText("1")
         self.bttCalcola.clicked.connect(self.onClickCalcola)
         self.bttVediGrafico.clicked.connect(self.onClickVediGrafico)
+        self.bttSympy.clicked.connect(self.onClickSympy)
 
     def onClickCalcola(self):
         numeratore = 0
@@ -433,6 +452,14 @@ class Ui_noLimit(QMainWindow):
         grafico_dettagliato.setGrafico(listX1, listY1, 'r', 'red')
         grafico_dettagliato.setGrafico(listX2, listY2, 'r', 'red')
         grafico_dettagliato.showGrafico()
+
+
+    def onClickSympy(self):
+        print("opening sympy")
+        self.sympy_window= UiSympy()
+        self.sympy_window.show()
+
+
 
 class PlotCanvas(FigureCanvas):
     """Ultimately, this is a QWidget (as well as a FigureCanvasAgg, etc.)."""
