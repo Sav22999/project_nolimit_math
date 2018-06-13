@@ -1,5 +1,6 @@
 ## PROGETTO DI SAVERIO MORELLI
 ## LICENZA GNU GPL v3, leggere file LICENSE
+#### Tutti i contenuti relativi a questo progetto sono sotto licenza GNU GPL v3, incluso il codice, le immagini e il contenuto.
 
 ## Mappa README
 - Progetto NoLimit Math - Descrizione del progetto
@@ -46,7 +47,10 @@ Si può collaborare anche solo segnalando un problema o un consiglio.
 **NB. Viene effettuato il merge delle pr direttamente (e solamente) da Sav22999.**
 
 ## OS su cui è testato il software
-- Sav22999 utilizza "Kubuntu 18.04": SOFTWARE FUNZIONA CORRETTAMENTE
+Sono stati effettuati differenti test sui seguenti sistemi operativi, sui quali è garantita la compatibilità:
+- Kubuntu (18.04)
+- Ubuntu (18.04)
+- Windows 10 (Home) - presenta alcuni problemi: non apre il grafico dettagliato
 
 ## Collaboratori
 - Sav22999 - Saverio Morelli
