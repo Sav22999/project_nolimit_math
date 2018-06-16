@@ -14,7 +14,7 @@ matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
-UI_FILE = fn = os.path.join(os.path.dirname(__file__), "nolimit_sympy.ui")
+UI_FILE = fn = os.path.join(os.path.dirname(__file__), "./nolimit_sympy.ui")
 
 # import typing should add types
 
@@ -44,9 +44,11 @@ class PlotCanvas(FigureCanvas):
         self.y_val[:] = np.array(x_lam(self.x_val))
 
         self.axes.cla()
-        self.axes.plot(self.x_val, self.y_val, 'r', label=latex(expr))
+        self.axes.plot([min(self.x_val), -1, 0, 1, max(self.x_val)],[0, 0, 0, 0, 0], 'r', color='black')
+        self.axes.plot([0, 0, 0, 0, 0],[min(self.y_val), -1, 0, 1, max(self.y_val)], 'r', color='black')
+        self.axes.plot(self.x_val, self.y_val, 'r', color="red")
         self.draw()
-        self.axes.legend()
+        #self.axes.legend()
 
 
 class UiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
@@ -62,34 +64,43 @@ class UiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
         self.layout_plot.addWidget(self.plot_canvas)
 
         self.calculate.clicked.connect(self.do_calc)
-        self.limit_expression.textChanged.connect(self.do_calc)
-        self.limit_value.textChanged.connect(self.do_calc)
-        self.show_details.stateChanged.connect(self.do_calc)
+        self.limit_expression.textChanged.connect(self.liveEdit)
+        self.limit_value.textChanged.connect(self.liveEdit)
+        self.show_details.clicked.connect(self.show_detailed_graph)
+        self.calculate.setGeometry(10,350,341,61)
+        self.show_details.hide()
+        self.line_2.hide()
+
+    def liveEdit(self):
+        if self.liveCheck.isChecked():
+            self.do_calc()
 
     def do_calc(self):
-        self.result.setTextColor(QtGui.QColor('black'))
-        self.result.setText("")   # may not be very efficient
-
-
         try:
-            expression = parse_expr(self.limit_expression.toPlainText())
+            expression = parse_expr(self.limit_expression.text())
             # check there is only Symbol('x') in the expression
             symbols = expression.free_symbols
             if symbols != set([x]) and symbols != set([]):
-                raise SympifyError("symblos not allowed could use only x") # to go in except (!) not the best
+                raise SympifyError("Symbol allows is just the 'x'") # to go in except (!) not the best
             #  calculate the limit and plot
-            result = limit(expression, x, self.limit_value.toPlainText())
+            result = limit(expression, x, self.limit_value.text())
             self.plot_canvas.plot_sympy_expression(expression)
-            if self.show_details.isChecked():
-                plot(expression, legend="this is a label")
-                #  self.show_details.setChecked(False) it he user is lazy
+
+            self.show_details.setEnabled(True)
+
+            self.calculate.setGeometry(10, 270, 341, 61)
+            self.show_details.show()
+            self.line_2.show()
         except (SympifyError, SyntaxError, TokenError) as err:
             print(err)
-            result = 'error: invalid input'
-            self.result.setTextColor(QtGui.QColor('red'))
+            result = 'Error: Invalid input'
+            #self.result.setTextColor(QtGui.QColor('red'))
 
         self.result.setText(str(result))
 
+    def show_detailed_graph(self):
+        expression = parse_expr(self.limit_expression.text())
+        plot(expression)
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
