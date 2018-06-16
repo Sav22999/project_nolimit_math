@@ -1,5 +1,5 @@
 ## SOFTWARE SVILUPPATO DA SAVER1O MORELLI - LICENZA GNU V3 || Software developed by Saverio Morelli - GNU V3 License
-## VERSIONE 1.3 - Version 1.3
+## VERSIONE 1.4 - Version 1.4
 
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -21,7 +21,7 @@ else:
 
 
 ## TITOLO DEL PROGETTO CHE APPARE SULLA FINESTRA || Project title which is shows on top the window
-titolo_progetto_finestra="NoLimit Math v1.3 - by SM"
+titolo_progetto_finestra="NoLimit Math v1.4 - by SM"
 
 def calcolaNumDen(testo, x0, infinito):
     #print(testo)
@@ -139,7 +139,7 @@ class Ui_noLimit(QMainWindow):
         font.setPointSize(18)
         self.setFont(font)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("icona.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("./icona.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.setWindowIcon(icon)
         self.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.centralwidget = QtWidgets.QWidget(self)
@@ -192,7 +192,7 @@ class Ui_noLimit(QMainWindow):
         self.line_2.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_2.setObjectName("line_2")
         self.textRisultato = QtWidgets.QLineEdit(self)
-        self.textRisultato.setGeometry(QtCore.QRect(560, 10, 231, 32))
+        self.textRisultato.setGeometry(QtCore.QRect(515, 10, 281, 32))
         font = QtGui.QFont()
         font.setPointSize(16)
         self.textRisultato.setFont(font)
@@ -206,25 +206,30 @@ class Ui_noLimit(QMainWindow):
         self.label_5.setGeometry(QtCore.QRect(120, 20, 271, 51))
         self.label_5.setObjectName("label_5")
         self.label_6 = QtWidgets.QLabel(self)
-        self.label_6.setGeometry(QtCore.QRect(420, 0, 161, 51))
+        self.label_6.setGeometry(QtCore.QRect(425, 0, 161, 51))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.label_6.setFont(font)
         self.label_6.setObjectName("label_6")
         self.bttVediGrafico = QtWidgets.QPushButton(self)
-        self.bttVediGrafico.setGeometry(QtCore.QRect(600, 280, 180, 61))
+        self.bttVediGrafico.setGeometry(QtCore.QRect(610, 280, 180, 61))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.bttVediGrafico.setFont(font)
         self.bttVediGrafico.setObjectName("bttVediGrafico")
         self.bttVediGrafico.hide()
-
         self.bttSympy = QtWidgets.QPushButton(self)
-        self.bttSympy.setGeometry(QtCore.QRect(100, 280, 180, 61))
+        self.bttSympy.setGeometry(QtCore.QRect(10, 280, 180, 61))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.bttSympy.setFont(font)
-        self.bttVediGrafico.setObjectName("bttSympy")
+        self.bttSympy.setObjectName("bttSympy")
+        self.checkLive = QtWidgets.QCheckBox(self)
+        self.checkLive.setGeometry(QtCore.QRect(10, 220, 180, 60))
+        font = QtGui.QFont()
+        font.setPointSize(14)
+        self.checkLive.setFont(font)
+        self.checkLive.setObjectName("checkLive")
 
         self.label.raise_()
         self.label_2.raise_()
@@ -240,18 +245,25 @@ class Ui_noLimit(QMainWindow):
         self.label_4.raise_()
         self.label_5.raise_()
         self.label_6.raise_()
-        css_btt="QPushButton{background-color:white;color:darkred;border:2px solid darkred;border-radius:5px;} QPushButton:hover{background-color:darkred;color:white;} QPushButton:pressed{background-color:red;border:0px;}"
+        self.checkLive.raise_()
+        css_btt="QPushButton{background-color:white;color:darkred;border:2px solid darkred;border-radius:5px;font-family:Rockwell;} QPushButton:hover{background-color:darkred;color:white;} QPushButton:pressed{background-color:red;border:0px;}"
         self.bttCalcola.setStyleSheet(css_btt)
         self.bttSympy.setStyleSheet(css_btt)
         self.bttVediGrafico.setStyleSheet(css_btt)
-        css_txt="QLineEdit{background-color:transparent;color:darkred;border:0px solid transparent;border-bottom:1px solid darkred;opacity:.7;} QLineEdit:focus{border-bottom:2px solid red;opacity:1;}"
+        css_txt="QLineEdit{background-color:transparent;color:darkred;border:0px solid transparent;border-bottom:1px solid darkred;opacity:.7;font-family:Rockwell;} QLineEdit:focus{border-bottom:2px solid red;opacity:1;background-color:transparent;}"
         self.textRisultato.setStyleSheet(css_txt)
         self.textNumeratore.setStyleSheet(css_txt)
         self.textDenominatore.setStyleSheet(css_txt)
         self.textX.setStyleSheet(css_txt)
         self.line.setStyleSheet("background-color:black;")
         self.line_2.setStyleSheet("background-color:darkred;")
-        #noLimit.setCentralWidget(self.centralwidget)
+        css_label = "color:#ff0000;font-family:Rockwell;"
+        self.label.setStyleSheet(css_label)
+        self.label_2.setStyleSheet(css_label)
+        self.label_4.setStyleSheet(css_label)
+        self.label_5.setStyleSheet(css_label)
+        self.label_6.setStyleSheet(css_label)
+        self.checkLive.setStyleSheet("color:darkred;font-family:Rockwell;")
 
         self.retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self)
@@ -262,23 +274,34 @@ class Ui_noLimit(QMainWindow):
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate("noLimit", titolo_progetto_finestra))
-        self.bttCalcola.setText(_translate("noLimit", "Calcola e\n"
-                                                      "genera il grafico"))
-        self.bttVediGrafico.setText(_translate("noLimit", "Visualizza grafico\n"
-                                               "nel dettaglio"))
-        self.bttSympy.setText(_translate("calcola limite con sympy", "sympy"))
+        self.bttCalcola.setText(_translate("noLimit", "Calculate and\n"
+                                                      "generate the graph"))
+        self.bttVediGrafico.setText(_translate("noLimit", "View the detailed\n"
+                                               "graph"))
+        self.bttSympy.setText(_translate("noLimit", "Use the\n"
+                                                    "Sympy library"))
         self.label.setText(_translate("noLimit", "lim"))
         self.label_2.setText(_translate("noLimit", "x→"))
         self.label_4.setText(_translate("noLimit",
-                                        "<html><head/><body><p><img src=\"./icona.png\"/><span style=\" font-style:italic; color:#ff0000; vertical-align:super;\">Realizzato da Saverio Morelli</span></p></body></html>"))
+                                        "<html><head/><body><p><img src=\"./icona.png\"/><span style=\" font-style:italic; font-family:Rockwell; color:#ff0000; vertical-align:super; font-size:26pt;\">Realised by Saverio Morelli</span></p></body></html>"))
         self.label_5.setText(_translate("noLimit",
-                                        "<html><head/><body><p align=\"center\"><span style=\" font-size:30pt; color:#ff0000;\">NoLimit Math</span></p></body></html>"))
-        self.label_6.setText(_translate("noLimit", "Risultato:"))
+                                        "<html><head/><body><p align=\"center\"><span style=\" font-size:30pt; font-family:Rockwell; color:#ff0000;\">NoLimit Math</span></p></body></html>"))
+        self.label_6.setText(_translate("noLimit", "Result:"))
+
+        self.checkLive.setText(_translate("noLimit", "\"Live calculation\""))
 
         self.textDenominatore.setText("1")
         self.bttCalcola.clicked.connect(self.onClickCalcola)
         self.bttVediGrafico.clicked.connect(self.onClickVediGrafico)
         self.bttSympy.clicked.connect(self.onClickSympy)
+
+        self.textNumeratore.textChanged.connect(self.liveEdit)
+        self.textDenominatore.textChanged.connect(self.liveEdit)
+        self.textX.textChanged.connect(self.liveEdit)
+
+    def liveEdit(self):
+        if self.checkLive.isChecked():
+            self.onClickCalcola()
 
     def onClickCalcola(self):
         numeratore = 0
@@ -295,21 +318,26 @@ class Ui_noLimit(QMainWindow):
         self.textX.setText(stringaX)
 
         if(stringaX!="" and self.textNumeratore.text()!="" and self.textDenominatore.text()!="" and self.textDenominatore.text()!="0"):
+            css_txt = "QLineEdit{background-color:transparent;color:darkred;border:0px solid transparent;border-bottom:1px solid darkred;opacity:.7;font-family:Rockwell;} QLineEdit:focus{border-bottom:2px solid red;opacity:1;background-color: transparent;}"
+            self.textX.setStyleSheet(css_txt)
+            self.textNumeratore.setStyleSheet(css_txt)
+            self.textDenominatore.setStyleSheet(css_txt)
+
             if (stringaX != ""):
                 x0=calcolaX0(self, stringaX)
             risultato = '0'
 
             if("∞" not in self.textX.text()):
                 if (self.textNumeratore.text() != ""):
-                    print("Numeratore: OK")
+                    print("Numerator: OK")
                     numeratore = calcolaNumDen(self.textNumeratore.text(), x0, False)
                     # print(numeratore)
 
                 if (self.textDenominatore.text() != "" and self.textDenominatore.text() != "0"):
                     if (self.textDenominatore.text() == "1"):
-                        print("Denominatore: OK | Static (1)")
+                        print("Denominator: OK | Static (1)")
                     else:
-                        print("Denominatore: OK | Custom")
+                        print("Denominator: OK | Custom")
                         denominatore = calcolaNumDen(self.textDenominatore.text(), x0, False)
                         # print(denominatore)
 
@@ -373,9 +401,9 @@ class Ui_noLimit(QMainWindow):
             
             valNum=self.textNumeratore.text()
             valDen=self.textDenominatore.text()
-            """print("Numeratore:")
+            """print("Numerator:")
             print(valDen)
-            print("Denominatore:")
+            print("Denominator:")
             print(valDen)"""
             i = 0
             listX1=[]
@@ -395,7 +423,7 @@ class Ui_noLimit(QMainWindow):
                 if(x0==9999 or x0==-9999):
                     i += 100
                 else:
-                    i += 0.01
+                    i += 0.05
                 
             # print(listX1)
             # print(listY1)
@@ -410,10 +438,22 @@ class Ui_noLimit(QMainWindow):
 
             self.bttVediGrafico.show()
         else:
-            if(stringaX==""): print("X(0): Error | Empty")
-            if(self.textNumeratore.text()==""): print("Numeratore: Error | Empty")
-            if(self.textDenominatore.text()==""): print("Denominatore: Error | Empty")
-            if(self.textDenominatore.text()=="0"): print("Denominatore: Error | ZeroDivision")
+            css_txt = "QLineEdit{background-color:transparent;color:darkred;border:0px solid transparent;border-bottom:1px solid darkred;opacity:.7;font-family:Rockwell;} QLineEdit:focus{border-bottom:2px solid red;opacity:1;background-color: transparent;}"
+            self.textX.setStyleSheet(css_txt)
+            self.textNumeratore.setStyleSheet(css_txt)
+            self.textDenominatore.setStyleSheet(css_txt)
+            if stringaX=="":
+                print("X(0): Error | Empty")
+                self.textX.setStyleSheet(css_txt.replace("background-color:transparent;","background-color:red;"))
+            if self.textNumeratore.text()=="":
+                print("Numerator: Error | Empty")
+                self.textNumeratore.setStyleSheet(css_txt.replace("background-color:transparent;", "background-color:red;"))
+            if self.textDenominatore.text()=="":
+                print("Denominator: Error | Empty")
+                self.textDenominatore.setStyleSheet(css_txt.replace("background-color:transparent;", "background-color:red;"))
+            if self.textDenominatore.text()=="0":
+                print("Denominator: Error | ZeroDivision")
+                self.textDenominatore.setStyleSheet(css_txt.replace("background-color:transparent;", "background-color:red;"))
 
     def onClickVediGrafico(self):
         stringaX = self.textX.text()
@@ -446,7 +486,7 @@ class Ui_noLimit(QMainWindow):
             if (x0 == 9999 or x0 == -9999):
                 i += 50
             else:
-                i += 0.001
+                i += 0.005
         grafico_dettagliato=Grafico(self)
         grafico_dettagliato.setGrafico([min([min(listX1),min(listX2)]),-1,0,1,max([max(listX1),max(listX2)])], [0,0,0,0,0], 'r', 'black')
         grafico_dettagliato.setGrafico([0,0,0,0,0], [min([min(listY1),min(listY2)]),-1,0,1,max([max(listY1),max(listY2)])], 'r', 'black')
