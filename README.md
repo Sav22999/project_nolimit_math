@@ -2,6 +2,9 @@
 ## LICENZA GNU GPL v3, leggere file LICENSE
 #### Tutti i contenuti relativi a questo progetto sono sotto licenza GNU GPL v3, incluso il codice, le immagini e il contenuto.
 
+Sito web Saverio Morelli: https://www.saveriomorelli.com/
+Sito web progetto: https://www.saveriomorelli.com/nolimitmath/
+
 ## Mappa README
 - Progetto NoLimit Math - Descrizione del progetto
 - Linguaggio di programmazione utilizzato e file principale del progetto
@@ -75,5 +78,5 @@ Sono stati effettuati differenti test sui seguenti sistemi operativi, sui quali 
 - Windows 10 (Home)
 
 ## Collaboratori
-- Sav22999 - Saverio Morelli
+- Sav22999 - Saverio Morelli - https://www.saveriomorelli.com/
 - Mone27 - Simone Massaro
