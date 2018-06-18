@@ -69,6 +69,8 @@ Sono presenti alcuni screenshots del software nella cartella "screenshot"
 Collaborare al progetto è molto semplice: è sufficiente aprire un nuovo issue in caso si vogliano aggiungere nuove funzionalità, successivamente si può procedere alla pr.
 Si può collaborare anche solo segnalando un problema o un consiglio.
 
+
+
 **NB. Viene effettuato il merge delle pr direttamente (e solamente) da Sav22999.**
 
 ## OS su cui è testato il software

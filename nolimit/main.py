@@ -13,18 +13,17 @@ import matplotlib.pyplot as plt
 
 ICON_PATH = os.path.join(os.path.dirname(__file__), "./icona.png")
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # needed for more comfortable dev should remove
     from nolimit.sympy.nolimit_sympy import UiSympy
+    version = "dev"
 else:
     from .sympy.nolimit_sympy import UiSympy
-
-
-
-# Make sure that we are using QT5
+    import nolimit
+    version = nolimit.__version__
 
 
 ## TITOLO DEL PROGETTO CHE APPARE SULLA FINESTRA || Project title which is shows on top the window
-titolo_progetto_finestra="NoLimit Math v1.4 - by SM"
+titolo_progetto_finestra=f"NoLimit Math v{version} - by SM"
 
 def calcolaNumDen(testo, x0, infinito):
     #print(testo)
