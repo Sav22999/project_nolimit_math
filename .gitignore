@@ -105,3 +105,6 @@ venv.bak/
 
 #for pycharm
 .idea
+
+#pipenv
+Pipfile*
