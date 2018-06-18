@@ -289,7 +289,7 @@ border:0px;
 font-family:Rockwell;</string>
     </property>
     <property name="text">
-     <string>&quot;Live calculation&quot;</string>
+     <string>Live calculation</string>
     </property>
    </widget>
   </widget>

@@ -11,7 +11,7 @@ def read(fname):
 
 setup(
     name = "nolimit",
-    version = "0.1",
+    version = "1.4",
     author = "Saverio Morelli, Simone Massaro",
     author_email = "saverio.morelli@outlook.it, mone.massaro@gmail.com",
     description = "simple desktop program to solve limits using Qt5 gui",

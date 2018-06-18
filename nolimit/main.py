@@ -2,6 +2,7 @@
 ## VERSIONE 1.4 - Version 1.4
 
 import sys
+import os
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
 import matplotlib
@@ -9,6 +10,8 @@ matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
+
+ICON_PATH = os.path.join(os.path.dirname(__file__), "./icona.png")
 
 if __name__ == "__main__":
     from nolimit.sympy.nolimit_sympy import UiSympy
@@ -139,7 +142,7 @@ class Ui_noLimit(QMainWindow):
         font.setPointSize(18)
         self.setFont(font)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("./icona.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(ICON_PATH), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.setWindowIcon(icon)
         self.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.centralwidget = QtWidgets.QWidget(self)

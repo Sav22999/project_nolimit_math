@@ -1,0 +1,23 @@
+[build-system]
+requires = ["flit"]
+build-backend = "flit.buildapi"
+
+[tool.flit.metadata]
+module = "nolimit"
+author = " Simone Massaro (mone27), Saverio Morelli (Sav22999) "
+author-email = "mone.massaro@gmail.com, saverio.morelli@outlook.it"
+home-page = "https://github.com/Sav22999/project_nolimit_math"
+classifiers = ["License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)"]
+requires = [
+"PyQt5",
+"matplotlib",
+"sympy",
+"numpy"
+]
+description-file = "README.md"
+[tool.flit.scripts]
+nolimit = "nolimit:main.main"
+nolimit_sympy = "nolimit:sympy.nolimit_sympy.main"
+
+
+

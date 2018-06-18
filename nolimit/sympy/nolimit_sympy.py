@@ -14,7 +14,8 @@ matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
-UI_FILE = fn = os.path.join(os.path.dirname(__file__), "./nolimit_sympy.ui")
+UI_FILE  = os.path.join(os.path.dirname(__file__), "./nolimit_sympy.ui")
+ICON_PATH = os.path.join(os.path.dirname(__file__), "../icona.png")
 
 # import typing should add types
 
