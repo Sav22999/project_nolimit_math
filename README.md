@@ -5,7 +5,7 @@
 - Sito web Saverio Morelli: https://www.saveriomorelli.com/
 - Sito web progetto: https://www.saveriomorelli.com/nolimitmath/
 
-![](smproject.png)![](smrealised.png)
+![](sitoweb/smproject.png)![](sitoweb/smrealised.png)
 
 
 ## Mappa README
@@ -87,4 +87,4 @@ Sono stati effettuati differenti test sui seguenti sistemi operativi, sui quali 
 - Sav22999 - Saverio Morelli - https://www.saveriomorelli.com/
 - Mone27 - Simone Massaro
 
-![](gplv3.png)
+![](sitoweb/gplv3.png)
