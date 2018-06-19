@@ -1,5 +1,5 @@
 ## SOFTWARE SVILUPPATO DA SAVER1O MORELLI - LICENZA GNU V3 || Software developed by Saverio Morelli - GNU V3 License
-## VERSIONE 1.4 - Version 1.4
+## VERSIONE - Version -> 1.0β
 
 import sys
 import os
@@ -12,7 +12,7 @@ from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 
 UI_FILE  = os.path.join(os.path.dirname(__file__), "./nolimit.ui")
-textVersione="1.0"
+textVersione="1.0β"
 
 def calcolaNumDen(testo, x0, infinito):
     #print(testo)

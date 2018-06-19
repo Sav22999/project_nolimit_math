@@ -67,6 +67,7 @@ Sono presenti alcuni screenshot del software nella cartella "screenshot"
 - PyQt5
 - Matplotlib
 - Sympy (per versione "sympy")
+- Numpy
 
 ## Come collaborare
 Collaborare al progetto è molto semplice: è sufficiente aprire un nuovo issue in caso si vogliano aggiungere nuove funzionalità, successivamente si può procedere alla pr (su indicazione di un moderatore).
