@@ -5,6 +5,7 @@ import sys
 import os
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
+
 import matplotlib
 matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -14,16 +15,15 @@ import matplotlib.pyplot as plt
 ICON_PATH = os.path.join(os.path.dirname(__file__), "./icona.png")
 
 if __name__ == "__main__":  # needed for more comfortable dev should remove
-    from nolimit.sympy.nolimit_sympy import UiSympy
+    from nolimit.nolimit_sympy.nolimit_sympy import UiSympy
     version = "dev"
 else:
-    from .sympy.nolimit_sympy import UiSympy
+    from .nolimit_sympy.nolimit_sympy import UiSympy
     import nolimit
     version = nolimit.__version__
 
-
 ## TITOLO DEL PROGETTO CHE APPARE SULLA FINESTRA || Project title which is shows on top the window
-titolo_progetto_finestra=f"NoLimit Math v{version} - by SM"
+WINDOW_TITLE= f"NoLimit Math v{version} - by SM"
 
 def calcolaNumDen(testo, x0, infinito):
     #print(testo)
@@ -275,7 +275,7 @@ class Ui_noLimit(QMainWindow):
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        self.setWindowTitle(_translate("noLimit", titolo_progetto_finestra))
+        self.setWindowTitle(_translate("noLimit", WINDOW_TITLE))
         self.bttCalcola.setText(_translate("noLimit", "Calculate and\n"
                                                       "generate the graph"))
         self.bttVediGrafico.setText(_translate("noLimit", "View the detailed\n"

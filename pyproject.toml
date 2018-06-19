@@ -17,7 +17,7 @@ requires = [
 description-file = "README.md"
 [tool.flit.scripts]
 nolimit = "nolimit:main.main"
-nolimit_sympy = "nolimit:sympy.nolimit_sympy.main"
+nolimit_sympy = "nolimit:nolimit_sympy.nolimit_sympy.main"
 
 
 

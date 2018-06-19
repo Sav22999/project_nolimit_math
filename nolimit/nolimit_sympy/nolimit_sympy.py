@@ -2,7 +2,10 @@ from PyQt5 import uic, QtWidgets, QtGui
 import sys
 import os
 
-from sympy import limit, lambdify, SympifyError, latex
+
+
+
+from sympy import limit, lambdify, SympifyError
 from sympy.abc import x
 from sympy.parsing.sympy_parser import parse_expr
 from sympy.parsing.sympy_tokenize import TokenError
