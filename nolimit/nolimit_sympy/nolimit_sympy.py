@@ -1,9 +1,9 @@
+## SOFTWARE SVILUPPATO DA SAVER1O MORELLI - LICENZA GNU V3 || Software developed by Saverio Morelli - GNU V3 License
+## VERSIONE 1.6 - Version 1.6
+
 from PyQt5 import uic, QtWidgets, QtGui
 import sys
 import os
-
-
-
 
 from sympy import limit, lambdify, SympifyError
 from sympy.abc import x
@@ -18,7 +18,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 UI_FILE  = os.path.join(os.path.dirname(__file__), "./nolimit_sympy.ui")
-ICON_PATH = os.path.join(os.path.dirname(__file__), "../icona.png")
+textVersione="1.0β"
 
 # import typing should add types
 
@@ -63,6 +63,8 @@ class UiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("../icona.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.setWindowIcon(icon)
+        
+        self.labelVersione.setText('<html><head/><body><p align="right"><span style="font-size:16px;color:white;background-color:darkred;">&nbsp;v'+textVersione+'&nbsp;</span></p></body></html>')
 
         self.plot_canvas = PlotCanvas(self)
         self.layout_plot.addWidget(self.plot_canvas)
