@@ -12,7 +12,7 @@ from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 
 UI_FILE  = os.path.join(os.path.dirname(__file__), "./nolimit.ui")
-textVersione="1.0β"
+textVersione="1.0"
 
 def calcolaNumDen(testo, x0, infinito):
     #print(testo)
