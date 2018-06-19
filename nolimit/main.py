@@ -3,27 +3,16 @@
 
 import sys
 import os
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import uic, QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
-
 import matplotlib
 matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 
-ICON_PATH = os.path.join(os.path.dirname(__file__), "./icona.png")
-
-if __name__ == "__main__":  # needed for more comfortable dev should remove
-    from nolimit.nolimit_sympy.nolimit_sympy import UiSympy
-    version = "dev"
-else:
-    from .nolimit_sympy.nolimit_sympy import UiSympy
-    import nolimit
-    version = nolimit.__version__
-
-## TITOLO DEL PROGETTO CHE APPARE SULLA FINESTRA || Project title which is shows on top the window
-WINDOW_TITLE= f"NoLimit Math v{version} - by SM"
+UI_FILE  = os.path.join(os.path.dirname(__file__), "./nolimit.ui")
+textVersione="1.0β"
 
 def calcolaNumDen(testo, x0, infinito):
     #print(testo)
@@ -129,177 +118,28 @@ def calcolaX0(self, x):
     return x0
 
 
-class Ui_noLimit(QMainWindow):
+class Ui_noLimit(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
     def __init__(self):
-        QtWidgets.QMainWindow.__init__(self)
-        self.setObjectName("noLimit")
-        self.resize(800, 354)
-        self.setMaximumSize(QtCore.QSize(800, 354))
-        self.setMinimumSize(QtCore.QSize(800, 354))
-        self.setGeometry(50, 100, 800, 354)
-        font = QtGui.QFont()
-        font.setPointSize(18)
-        self.setFont(font)
+        super().__init__()
+        self.setupUi(self)
+        
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(ICON_PATH), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("./icona.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.setWindowIcon(icon)
-        self.setTabShape(QtWidgets.QTabWidget.Rounded)
-        self.centralwidget = QtWidgets.QWidget(self)
-        self.setObjectName("centralwidget")
-        self.bttCalcola = QtWidgets.QPushButton(self)
-        self.bttCalcola.setGeometry(QtCore.QRect(320, 280, 191, 61))
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        self.bttCalcola.setFont(font)
-        self.bttCalcola.setObjectName("bttCalcola")
-        self.textX = QtWidgets.QLineEdit(self)
-        self.textX.setGeometry(QtCore.QRect(45, 190, 40, 32))
-        font = QtGui.QFont()
-        font.setPointSize(16)
-        self.textX.setFont(font)
-        self.textX.setText("")
-        self.textX.setObjectName("textX")
-        self.label = QtWidgets.QLabel(self)
-        self.label.setGeometry(QtCore.QRect(25, 150, 58, 51))
-        font = QtGui.QFont()
-        font.setPointSize(20)
-        self.label.setFont(font)
-        self.label.setObjectName("label")
-        self.label_2 = QtWidgets.QLabel(self)
-        self.label_2.setGeometry(QtCore.QRect(14, 180, 58, 51))
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        self.label_2.setFont(font)
-        self.label_2.setObjectName("label_2")
-        self.textNumeratore = QtWidgets.QLineEdit(self)
-        self.textNumeratore.setGeometry(QtCore.QRect(90, 140, 311, 32))
-        font = QtGui.QFont()
-        font.setPointSize(16)
-        self.textNumeratore.setFont(font)
-        self.textNumeratore.setObjectName("textNumeratore")
-        self.textDenominatore = QtWidgets.QLineEdit(self)
-        self.textDenominatore.setGeometry(QtCore.QRect(90, 183, 311, 32))
-        font = QtGui.QFont()
-        font.setPointSize(16)
-        self.textDenominatore.setFont(font)
-        self.textDenominatore.setObjectName("textDenominatore")
-        self.line = QtWidgets.QFrame(self)
-        self.line.setGeometry(QtCore.QRect(85, 177, 320, 3))
-        self.line.setFrameShape(QtWidgets.QFrame.HLine)
-        self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line.setObjectName("line")
-        self.line_2 = QtWidgets.QFrame(self)
-        self.line_2.setGeometry(QtCore.QRect(415, -20, 2, 361))
-        self.line_2.setFrameShape(QtWidgets.QFrame.VLine)
-        self.line_2.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line_2.setObjectName("line_2")
-        self.textRisultato = QtWidgets.QLineEdit(self)
-        self.textRisultato.setGeometry(QtCore.QRect(515, 10, 281, 32))
-        font = QtGui.QFont()
-        font.setPointSize(16)
-        self.textRisultato.setFont(font)
-        self.textRisultato.setReadOnly(True)
-        self.textRisultato.setObjectName("textRisultato")
-        self.label_4 = QtWidgets.QLabel(self)
-        self.label_4.setGeometry(QtCore.QRect(10, 10, 391, 91))
-        self.label_4.setAutoFillBackground(True)
-        self.label_4.setObjectName("label_4")
-        self.label_5 = QtWidgets.QLabel(self)
-        self.label_5.setGeometry(QtCore.QRect(120, 20, 271, 51))
-        self.label_5.setObjectName("label_5")
-        self.label_6 = QtWidgets.QLabel(self)
-        self.label_6.setGeometry(QtCore.QRect(425, 0, 161, 51))
-        font = QtGui.QFont()
-        font.setPointSize(20)
-        self.label_6.setFont(font)
-        self.label_6.setObjectName("label_6")
-        self.bttVediGrafico = QtWidgets.QPushButton(self)
-        self.bttVediGrafico.setGeometry(QtCore.QRect(610, 280, 180, 61))
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        self.bttVediGrafico.setFont(font)
-        self.bttVediGrafico.setObjectName("bttVediGrafico")
-        self.bttVediGrafico.hide()
-        self.bttSympy = QtWidgets.QPushButton(self)
-        self.bttSympy.setGeometry(QtCore.QRect(10, 280, 180, 61))
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        self.bttSympy.setFont(font)
-        self.bttSympy.setObjectName("bttSympy")
-        self.checkLive = QtWidgets.QCheckBox(self)
-        self.checkLive.setGeometry(QtCore.QRect(10, 220, 180, 60))
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        self.checkLive.setFont(font)
-        self.checkLive.setObjectName("checkLive")
+        
+        self.labelVersione.setText('<html><head/><body><p align="right"><span style="font-size:16px;color:white;background-color:darkred;">&nbsp;v'+textVersione+'&nbsp;</span></p></body></html>')
 
-        self.label.raise_()
-        self.label_2.raise_()
-        self.line.raise_()
-        self.line_2.raise_()
-        self.textX.raise_()
-        self.textDenominatore.raise_()
-        self.textNumeratore.raise_()
-        self.textRisultato.raise_()
-        self.bttCalcola.raise_()
-        self.bttVediGrafico.raise_()
-        self.bttSympy.raise_()
-        self.label_4.raise_()
-        self.label_5.raise_()
-        self.label_6.raise_()
-        self.checkLive.raise_()
-        css_btt="QPushButton{background-color:white;color:darkred;border:2px solid darkred;border-radius:5px;font-family:Rockwell;} QPushButton:hover{background-color:darkred;color:white;} QPushButton:pressed{background-color:red;border:0px;}"
-        self.bttCalcola.setStyleSheet(css_btt)
-        self.bttSympy.setStyleSheet(css_btt)
-        self.bttVediGrafico.setStyleSheet(css_btt)
-        css_txt="QLineEdit{background-color:transparent;color:darkred;border:0px solid transparent;border-bottom:1px solid darkred;opacity:.7;font-family:Rockwell;} QLineEdit:focus{border-bottom:2px solid red;opacity:1;background-color:transparent;}"
-        self.textRisultato.setStyleSheet(css_txt)
-        self.textNumeratore.setStyleSheet(css_txt)
-        self.textDenominatore.setStyleSheet(css_txt)
-        self.textX.setStyleSheet(css_txt)
-        self.line.setStyleSheet("background-color:black;")
-        self.line_2.setStyleSheet("background-color:darkred;")
-        css_label = "color:#ff0000;font-family:Rockwell;"
-        self.label.setStyleSheet(css_label)
-        self.label_2.setStyleSheet(css_label)
-        self.label_4.setStyleSheet(css_label)
-        self.label_5.setStyleSheet(css_label)
-        self.label_6.setStyleSheet(css_label)
-        self.checkLive.setStyleSheet("color:darkred;font-family:Rockwell;")
+        self.plot_canvas = PlotCanvas(self)
+        self.layout_plot.addWidget(self.plot_canvas)
 
-        self.retranslateUi()
-        QtCore.QMetaObject.connectSlotsByName(self)
-        self.plot_canvas = PlotCanvas(self, width=3.6, height=2.2)
-        self.plot_canvas.move(430, 50)
-        #self.plot_canvas.hide()
-
-    def retranslateUi(self):
-        _translate = QtCore.QCoreApplication.translate
-        self.setWindowTitle(_translate("noLimit", WINDOW_TITLE))
-        self.bttCalcola.setText(_translate("noLimit", "Calculate and\n"
-                                                      "generate the graph"))
-        self.bttVediGrafico.setText(_translate("noLimit", "View the detailed\n"
-                                               "graph"))
-        self.bttSympy.setText(_translate("noLimit", "Use the\n"
-                                                    "Sympy library"))
-        self.label.setText(_translate("noLimit", "lim"))
-        self.label_2.setText(_translate("noLimit", "x→"))
-        self.label_4.setText(_translate("noLimit",
-                                        "<html><head/><body><p><img src=\"./icona.png\"/><span style=\" font-style:italic; font-family:Rockwell; color:#ff0000; vertical-align:super; font-size:26pt;\">Realised by Saverio Morelli</span></p></body></html>"))
-        self.label_5.setText(_translate("noLimit",
-                                        "<html><head/><body><p align=\"center\"><span style=\" font-size:30pt; font-family:Rockwell; color:#ff0000;\">NoLimit Math</span></p></body></html>"))
-        self.label_6.setText(_translate("noLimit", "Result:"))
-
-        self.checkLive.setText(_translate("noLimit", "\"Live calculation\""))
-
-        self.textDenominatore.setText("1")
         self.bttCalcola.clicked.connect(self.onClickCalcola)
-        self.bttVediGrafico.clicked.connect(self.onClickVediGrafico)
-        self.bttSympy.clicked.connect(self.onClickSympy)
-
         self.textNumeratore.textChanged.connect(self.liveEdit)
         self.textDenominatore.textChanged.connect(self.liveEdit)
         self.textX.textChanged.connect(self.liveEdit)
+        self.bttVediGrafico.clicked.connect(self.onClickVediGrafico)
+        self.bttCalcola.setGeometry(10,350,341,61)
+        self.bttVediGrafico.hide()
+        self.line_2.hide()
 
     def liveEdit(self):
         if self.checkLive.isChecked():
@@ -320,6 +160,10 @@ class Ui_noLimit(QMainWindow):
         self.textX.setText(stringaX)
 
         if(stringaX!="" and self.textNumeratore.text()!="" and self.textDenominatore.text()!="" and self.textDenominatore.text()!="0"):
+            self.bttCalcola.setGeometry(10, 270, 341, 61)
+            self.bttVediGrafico.show()
+            self.line_2.show()
+                
             css_txt = "QLineEdit{background-color:transparent;color:darkred;border:0px solid transparent;border-bottom:1px solid darkred;opacity:.7;font-family:Rockwell;} QLineEdit:focus{border-bottom:2px solid red;opacity:1;background-color: transparent;}"
             self.textX.setStyleSheet(css_txt)
             self.textNumeratore.setStyleSheet(css_txt)
@@ -426,11 +270,7 @@ class Ui_noLimit(QMainWindow):
                     i += 100
                 else:
                     i += 0.05
-                
-            # print(listX1)
-            # print(listY1)
-            # print(listX2)
-            # print(listY2)
+            
             self.plot_canvas.axes.cla()
             self.plot_canvas.axes.plot([min([min(listX1),min(listX2)]),-1,0,1,max([max(listX1),max(listX2)])], [0,0,0,0,0], 'r', color='black')
             self.plot_canvas.axes.plot([0,0,0,0,0], [min([min(listY1),min(listY2)]),-1,0,1,max([max(listY1),max(listY2)])], 'r', color='black')
@@ -532,13 +372,10 @@ class Grafico(QMainWindow):
 
     def showGrafico(self):
         plt.show()
-
 def main():
     app = QtWidgets.QApplication(sys.argv)
-    ui = Ui_noLimit()
-    ui.show()
+    window = Ui_noLimit()
+    window.show()
     sys.exit(app.exec_())
-
-
 if __name__ == "__main__":
     main()
