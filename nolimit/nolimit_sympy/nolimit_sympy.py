@@ -1,5 +1,5 @@
 ## SOFTWARE SVILUPPATO DA SAVER1O MORELLI - LICENZA GNU V3 || Software developed by Saverio Morelli - GNU V3 License
-## VERSIONE 1.6 - Version 1.6
+## VERSIONE - Version -> 1.0β
 
 from PyQt5 import uic, QtWidgets, QtGui
 import sys

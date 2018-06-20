@@ -5,6 +5,7 @@
 - Sito web Saverio Morelli: https://www.saveriomorelli.com/
 - Sito web progetto: https://www.saveriomorelli.com/nolimitmath/
 
+![](sitoweb/smproject.png)![](sitoweb/smrealised.png)
 
 
 ## Mappa README
@@ -67,6 +68,7 @@ Sono presenti alcuni screenshot del software nella cartella "screenshot"
 - PyQt5
 - Matplotlib
 - Sympy (per versione "sympy")
+- Numpy
 
 ## Come collaborare
 Collaborare al progetto è molto semplice: è sufficiente aprire un nuovo issue in caso si vogliano aggiungere nuove funzionalità, successivamente si può procedere alla pr (su indicazione di un moderatore).
@@ -84,3 +86,5 @@ Sono stati effettuati differenti test sui seguenti sistemi operativi, sui quali 
 ## Collaboratori
 - Sav22999 - Saverio Morelli - https://www.saveriomorelli.com/
 - Mone27 - Simone Massaro
+
+![](sitoweb/gplv3.png)
