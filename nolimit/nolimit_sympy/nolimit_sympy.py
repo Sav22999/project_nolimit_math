@@ -52,7 +52,6 @@ class PlotCanvas(FigureCanvas):
         self.axes.plot([0, 0, 0, 0, 0],[min(self.y_val), -1, 0, 1, max(self.y_val)], 'r', color='black')
         self.axes.plot(self.x_val, self.y_val, 'r', color="red")
         self.draw()
-        #self.axes.legend()
 
 
 class UiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
@@ -86,7 +85,7 @@ class UiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
             expression = parse_expr(self.limit_expression.text())
             # check there is only Symbol('x') in the expression
             symbols = expression.free_symbols
-            if symbols != set([x]) and symbols != set([]):
+            if symbols != {x} and symbols != set([]):
                 raise SympifyError("Symbol allows is just the 'x'") # to go in except (!) not the best
             #  calculate the limit and plot
             result = limit(expression, x, self.limit_value.text())
@@ -106,7 +105,14 @@ class UiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
 
     def show_detailed_graph(self):
         expression = parse_expr(self.limit_expression.text())
-        plot(expression)
+        try:
+            plot(expression)
+        except TypeError:
+            print("error during plot")
+            QtWidgets.QMessageBox.warning(self, "plotting not supported",
+                                              "the program does no support detailed plotting "
+                                              "of a costant function! Please try with a different function")
+
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
