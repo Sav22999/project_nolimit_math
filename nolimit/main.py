@@ -1,5 +1,5 @@
 ## SOFTWARE SVILUPPATO DA SAVER1O MORELLI - LICENZA GNU V3 || Software developed by Saverio Morelli - GNU V3 License
-## VERSIONE - Version -> 1.0β
+## VERSIONE - Version -> 1.0Î²
 
 import sys
 import os
@@ -12,7 +12,7 @@ from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 
 UI_FILE  = os.path.join(os.path.dirname(__file__), "./nolimit.ui")
-textVersione="1.0β"
+textVersione="1.0.1β"
 
 
 def calcolaNumDen(testo, x0, infinito):
@@ -144,7 +144,10 @@ class Ui_noLimit(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
 
     def liveEdit(self):
         if self.checkLive.isChecked():
-            self.onClickCalcola()
+            try:
+                self.onClickCalcola()
+            except:
+                print("!! General error: n001 !!")
 
     def onClickCalcola(self):
         numeratore = 0
@@ -330,7 +333,7 @@ class Ui_noLimit(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
                 i += 50
             else:
                 i += 0.005
-        grafico_dettagliato=Grafico(self)
+        grafico_dettagliato=Grafico()
         grafico_dettagliato.setGrafico([min([min(listX1),min(listX2)]),-1,0,1,max([max(listX1),max(listX2)])], [0,0,0,0,0], 'r', 'black')
         grafico_dettagliato.setGrafico([0,0,0,0,0], [min([min(listY1),min(listY2)]),-1,0,1,max([max(listY1),max(listY2)])], 'r', 'black')
         grafico_dettagliato.setGrafico(listX1, listY1, 'r', 'red')
