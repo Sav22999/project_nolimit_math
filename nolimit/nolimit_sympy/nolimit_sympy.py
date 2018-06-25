@@ -18,9 +18,34 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 UI_FILE  = os.path.join(os.path.dirname(__file__), "./nolimit_sympy.ui")
-textVersione="1.0β"
+textVersione="1.0"
 
 # import typing should add types
+
+
+class MathExpression:
+    """a wrapper around sympy expression for being able to use symbol which are not valid in sympy:
+    -∞ or inf instead of oo
+    -^ instead of **
+    it returns also a substituted string.
+    """
+    replacements = {'∞': 'oo', 'inf': 'oo', '^': '**'}
+
+    def __init__(self, expr):
+        # replace expression
+        expr = str(expr)
+        for value, replacement in self.replacements.items():
+            print(expr)
+            expr = expr.replace(value, replacement) # (!) not so efficient creates a new string every time
+
+        # parse_expr from sympy.parsing.sympy_parser
+        self.expr = parse_expr(expr)
+
+    def __str__(self):
+        expr_str = str(self.expr)
+        for replacement, value in self.replacements.items():
+            expr_str = expr_str.replace(value, replacement)
+        return expr_str
 
 
 class PlotCanvas(FigureCanvas):
@@ -69,27 +94,27 @@ class UiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
         self.layout_plot.addWidget(self.plot_canvas)
 
         self.calculate.clicked.connect(self.do_calc)
-        self.limit_expression.textChanged.connect(self.liveEdit)
-        self.limit_value.textChanged.connect(self.liveEdit)
+        self.limit_expression.textChanged.connect(self.live_edit)
+        self.limit_value.textChanged.connect(self.live_edit)
         self.show_details.clicked.connect(self.show_detailed_graph)
         self.calculate.setGeometry(10,350,341,61)
         self.show_details.hide()
         self.line_2.hide()
 
-    def liveEdit(self):
+    def live_edit(self):
         if self.liveCheck.isChecked():
             self.do_calc()
 
     def do_calc(self):
         try:
-            expression = parse_expr(self.limit_expression.text())
+            expression = MathExpression(self.limit_expression.text())
             # check there is only Symbol('x') in the expression
-            symbols = expression.free_symbols
+            symbols = expression.expr.free_symbols
             if symbols != {x} and symbols != set([]):
                 raise SympifyError("Symbol allows is just the 'x'") # to go in except (!) not the best
             #  calculate the limit and plot
-            result = limit(expression, x, self.limit_value.text())
-            self.plot_canvas.plot_sympy_expression(expression)
+            result = MathExpression(limit(expression.expr, x, MathExpression(self.limit_value.text()).expr))
+            self.plot_canvas.plot_sympy_expression(expression.expr)
 
             self.show_details.setEnabled(True)
 
@@ -112,6 +137,11 @@ class UiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
             QtWidgets.QMessageBox.warning(self, "plotting not supported",
                                               "the program does no support detailed plotting "
                                               "of a costant function! Please try with a different function")
+
+
+
+
+
 
 
 def main():
