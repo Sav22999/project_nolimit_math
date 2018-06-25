@@ -5,7 +5,7 @@ from PyQt5 import uic, QtWidgets, QtGui
 import sys
 import os
 
-from sympy import limit, lambdify, SympifyError
+from sympy import limit, lambdify, SympifyError, N
 from sympy.abc import x
 from sympy.parsing.sympy_parser import parse_expr
 from sympy.parsing.sympy_tokenize import TokenError
@@ -35,7 +35,6 @@ class MathExpression:
         # replace expression
         expr = str(expr)
         for value, replacement in self.replacements.items():
-            print(expr)
             expr = expr.replace(value, replacement) # (!) not so efficient creates a new string every time
 
         # parse_expr from sympy.parsing.sympy_parser
@@ -97,6 +96,7 @@ class UiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
         self.limit_expression.textChanged.connect(self.live_edit)
         self.limit_value.textChanged.connect(self.live_edit)
         self.show_details.clicked.connect(self.show_detailed_graph)
+        self.resultFloat.stateChanged.connect(self.do_calc)
         self.calculate.setGeometry(10,350,341,61)
         self.show_details.hide()
         self.line_2.hide()
@@ -114,6 +114,8 @@ class UiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
                 raise SympifyError("Symbol allows is just the 'x'") # to go in except (!) not the best
             #  calculate the limit and plot
             result = MathExpression(limit(expression.expr, x, MathExpression(self.limit_value.text()).expr))
+            if self.resultFloat.isChecked():
+                result = N(result.expr)
             self.plot_canvas.plot_sympy_expression(expression.expr)
 
             self.show_details.setEnabled(True)
@@ -122,11 +124,11 @@ class UiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
             self.show_details.show()
             self.line_2.show()
         except (SympifyError, SyntaxError, TokenError) as err:
-            print(err)
             result = 'Error: Invalid input'
-            #self.result.setTextColor(QtGui.QColor('red'))
+
 
         self.result.setText(str(result))
+
 
     def show_detailed_graph(self):
         expression = parse_expr(self.limit_expression.text())

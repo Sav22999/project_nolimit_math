@@ -369,6 +369,22 @@ border:0px solid transparent;</string>
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:16px; color:#ffffff; background-color:#8b0000;&quot;&gt;&amp;nbsp;v&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
+   <widget class="QCheckBox" name="resultFloat">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>200</y>
+      <width>90</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color:#ff0000;font-family:Rockwell;</string>
+    </property>
+    <property name="text">
+     <string>Float</string>
+    </property>
+   </widget>
   </widget>
   <action name="actionabout">
    <property name="text">
