@@ -17,6 +17,7 @@ matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
+
 UI_FILE  = os.path.join(os.path.dirname(__file__), "./nolimit_sympy.ui")
 textVersione="1.0"
 
@@ -87,10 +88,14 @@ class UiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
         icon.addPixmap(QtGui.QPixmap("../icona.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.setWindowIcon(icon)
         
-        self.labelVersione.setText('<html><head/><body><p align="right"><span style="font-size:16px;color:white;background-color:darkred;">&nbsp;v'+textVersione+'&nbsp;</span></p></body></html>')
+        self.labelVersione.setText('<p align="right"><span style="font-size:16px;color:white;background-color:darkred;">&nbsp;v'+textVersione+'&nbsp;</span></p>')
 
         self.plot_canvas = PlotCanvas(self)
         self.layout_plot.addWidget(self.plot_canvas)
+
+        self.detail_plot_window = QtWidgets.QMainWindow()  # could put into .ui file
+        self.detail_plot_window.resize(1000,800)
+        self.detail_plot_canvas = PlotCanvas(self.detail_plot_window)
 
         self.calculate.clicked.connect(self.do_calc)
         self.limit_expression.textChanged.connect(self.live_edit)
@@ -126,24 +131,12 @@ class UiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
         except (SympifyError, SyntaxError, TokenError) as err:
             result = 'Error: Invalid input'
 
-
         self.result.setText(str(result))
 
-
     def show_detailed_graph(self):
-        expression = parse_expr(self.limit_expression.text())
-        try:
-            plot(expression)
-        except TypeError:
-            print("error during plot")
-            QtWidgets.QMessageBox.warning(self, "plotting not supported",
-                                              "the program does no support detailed plotting "
-                                              "of a costant function! Please try with a different function")
-
-
-
-
-
+        expr = parse_expr(self.limit_expression.text())
+        self.detail_plot_canvas.plot_sympy_expression(expr)
+        self.detail_plot_window.show()
 
 
 def main():
@@ -151,5 +144,7 @@ def main():
     window = UiSympy()
     window.show()
     sys.exit(app.exec_())
+
+
 if __name__ == "__main__":
     main()
