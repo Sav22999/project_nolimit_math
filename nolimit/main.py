@@ -12,7 +12,7 @@ from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 
 UI_FILE  = os.path.join(os.path.dirname(__file__), "./nolimit.ui")
-textVersione="1.0.4β"
+textVersione="1.0.5β"
 
 
 def calcolaNumDen(testo, x0, infinito):
@@ -300,48 +300,46 @@ class Ui_noLimit(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
             print("!! General error: n001 !!")
 
     def onClickVediGrafico(self):
-        stringaX = self.textX.text()
-        if "+-" in stringaX: stringaX = stringaX.replace("+-", "±")
-        if "-+" in stringaX: stringaX = stringaX.replace("-+", "∓")
-        if "±" in stringaX: stringaX = stringaX.replace("±", "")
-        if "∓" in stringaX: stringaX = stringaX.text().replace("∓", "")
-        if stringaX == "inf" or stringaX == "∞": stringaX = "+inf"
-        if "inf" in stringaX: stringaX = stringaX.replace("inf", "∞")
-        self.textX.setText(stringaX)
-        if(stringaX!=""):
-            x0 = calcolaX0(self, stringaX)
-        valNum = self.textNumeratore.text()
-        valDen = self.textDenominatore.text()
-        i = 0
-        listX1 = []
-        listX2 = []
-        listY1 = []
-        listY2 = []
-        for count in range(0, 1000):
-            try:
-                num = float(calcolaNumDen(valNum, (x0 + i), False) / calcolaNumDen(valDen, (x0 + i), False))
-                num = float(calcolaNumDen(valNum, (x0 - i), False) / calcolaNumDen(valDen, (x0 - i), False))
-            except ZeroDivisionError:
-                i += 0.001
-            listX1.append(x0 + i)
-            listY1.append(calcolaNumDen(valNum, (x0 + i), False) / calcolaNumDen(valDen, (x0 + i), False))
-            listX2.append(x0 - i)
-            listY2.append(calcolaNumDen(valNum, (x0 - i), False) / calcolaNumDen(valDen, (x0 - i), False))
-            if (x0 == 9999 or x0 == -9999):
-                i += 50
-            else:
-                i += 0.005
-        grafico_dettagliato=Grafico()
-        grafico_dettagliato.setGrafico([min([min(listX1),min(listX2)]),-1,0,1,max([max(listX1),max(listX2)])], [0,0,0,0,0], 'r', 'black')
-        grafico_dettagliato.setGrafico([0,0,0,0,0], [min([min(listY1),min(listY2)]),-1,0,1,max([max(listY1),max(listY2)])], 'r', 'black')
-        grafico_dettagliato.setGrafico(listX1, listY1, 'r', 'red')
-        grafico_dettagliato.setGrafico(listX2, listY2, 'r', 'red')
-        grafico_dettagliato.showGrafico()
-
-
-    # def onClickSympy(self):
-    #     self.sympy_window= UiSympy()
-    #     self.sympy_window.show()
+        try:
+            stringaX = self.textX.text()
+            if "+-" in stringaX: stringaX = stringaX.replace("+-", "±")
+            if "-+" in stringaX: stringaX = stringaX.replace("-+", "∓")
+            if "±" in stringaX: stringaX = stringaX.replace("±", "")
+            if "∓" in stringaX: stringaX = stringaX.text().replace("∓", "")
+            if stringaX == "inf" or stringaX == "∞": stringaX = "+inf"
+            if "inf" in stringaX: stringaX = stringaX.replace("inf", "∞")
+            self.textX.setText(stringaX)
+            if(stringaX!=""):
+                x0 = calcolaX0(self, stringaX)
+            valNum = self.textNumeratore.text()
+            valDen = self.textDenominatore.text()
+            i = 0
+            listX1 = []
+            listX2 = []
+            listY1 = []
+            listY2 = []
+            for count in range(0, 1000):
+                try:
+                    num = float(calcolaNumDen(valNum, (x0 + i), False) / calcolaNumDen(valDen, (x0 + i), False))
+                    num = float(calcolaNumDen(valNum, (x0 - i), False) / calcolaNumDen(valDen, (x0 - i), False))
+                except ZeroDivisionError:
+                    i += 0.001
+                listX1.append(x0 + i)
+                listY1.append(calcolaNumDen(valNum, (x0 + i), False) / calcolaNumDen(valDen, (x0 + i), False))
+                listX2.append(x0 - i)
+                listY2.append(calcolaNumDen(valNum, (x0 - i), False) / calcolaNumDen(valDen, (x0 - i), False))
+                if (x0 == 9999 or x0 == -9999):
+                    i += 50
+                else:
+                    i += 0.005
+            grafico_dettagliato=Grafico()
+            grafico_dettagliato.setGrafico([min([min(listX1),min(listX2)]),-1,0,1,max([max(listX1),max(listX2)])], [0,0,0,0,0], 'r', 'black')
+            grafico_dettagliato.setGrafico([0,0,0,0,0], [min([min(listY1),min(listY2)]),-1,0,1,max([max(listY1),max(listY2)])], 'r', 'black')
+            grafico_dettagliato.setGrafico(listX1, listY1, 'r', 'red')
+            grafico_dettagliato.setGrafico(listX2, listY2, 'r', 'red')
+            grafico_dettagliato.showGrafico()
+        except:
+            print("!! General error: n002 !!")
 
 class PlotCanvas(FigureCanvas):
     """Ultimately, this is a QWidget (as well as a FigureCanvasAgg, etc.)."""
