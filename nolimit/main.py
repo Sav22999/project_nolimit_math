@@ -12,7 +12,7 @@ from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 
 UI_FILE  = os.path.join(os.path.dirname(__file__), "./nolimit.ui")
-textVersione="1.1β"
+textVersione="1.0.4β"
 
 
 def calcolaNumDen(testo, x0, infinito):
@@ -162,10 +162,6 @@ class Ui_noLimit(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
             self.textX.setText(stringaX)
     
             if stringaX!="" and self.textNumeratore.text()!="" and self.textDenominatore.text()!="" and self.textDenominatore.text()!="0":
-                self.bttCalcola.setGeometry(10, 270, 341, 61)
-                self.bttVediGrafico.show()
-                self.line_2.show()
-                    
                 css_txt = "QLineEdit{background-color:transparent;color:darkred;border:0px solid transparent;border-bottom:1px solid darkred;opacity:.7;font-family:Rockwell;} QLineEdit:focus{border-bottom:2px solid red;opacity:1;background-color: transparent;}"
                 self.textX.setStyleSheet(css_txt)
                 self.textNumeratore.setStyleSheet(css_txt)
@@ -279,8 +275,10 @@ class Ui_noLimit(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
                 self.plot_canvas.axes.plot(listX1,listY1, 'r', color='red')
                 self.plot_canvas.axes.plot(listX2,listY2, 'r', color='red')
                 self.plot_canvas.draw()
-    
+                
+                self.bttCalcola.setGeometry(10, 270, 341, 61)
                 self.bttVediGrafico.show()
+                self.line_2.show()
             else:
                 css_txt = "QLineEdit{background-color:transparent;color:darkred;border:0px solid transparent;border-bottom:1px solid darkred;opacity:.7;font-family:Rockwell;} QLineEdit:focus{border-bottom:2px solid red;opacity:1;background-color: transparent;}"
                 self.textX.setStyleSheet(css_txt)
