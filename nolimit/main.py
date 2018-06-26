@@ -298,8 +298,8 @@ class Ui_noLimit(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
                 if self.textDenominatore.text()=="0":
                     print("Denominator: Error | ZeroDivision")
                     self.textDenominatore.setStyleSheet(css_txt.replace("background-color:transparent;", "background-color:red;"))
-            except:
-                print("!! General error: n001 !!")
+        except:
+            print("!! General error: n001 !!")
 
     def onClickVediGrafico(self):
         stringaX = self.textX.text()
