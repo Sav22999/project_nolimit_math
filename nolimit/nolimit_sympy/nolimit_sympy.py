@@ -19,7 +19,7 @@ from matplotlib.figure import Figure
 
 
 UI_FILE  = os.path.join(os.path.dirname(__file__), "./nolimit_sympy.ui")
-textVersione="1.0"
+textVersione="1.0.5β"
 
 # import typing should add types
 
