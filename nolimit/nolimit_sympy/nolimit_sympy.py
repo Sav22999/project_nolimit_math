@@ -106,6 +106,7 @@ class UiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
         self.show_details.hide()
         self.line_2.hide()
 
+
     def live_edit(self):
         if self.liveCheck.isChecked():
             self.do_calc()
@@ -132,6 +133,10 @@ class UiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
             result = 'Error: Invalid input'
 
         self.result.setText(str(result))
+        if self.limit_value.text() in ['inf','∞','oo', '+inf', '+∞', '+oo']:
+            self.limit_value.setText('+∞')
+        elif self.limit_value.text() in ['-inf','-∞','-oo']:
+            self.limit_value.setText('-∞')
 
     def show_detailed_graph(self):
         expr = parse_expr(self.limit_expression.text())
