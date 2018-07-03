@@ -9,11 +9,12 @@ from sympy import limit, lambdify, SympifyError, N
 from sympy.abc import x
 from sympy.parsing.sympy_parser import parse_expr
 from sympy.parsing.sympy_tokenize import TokenError
-from sympy.plotting import plot
+
 
 import numpy as np
 import matplotlib
 matplotlib.use('Qt5Agg')
+import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
@@ -92,10 +93,7 @@ class UiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
 
         self.plot_canvas = PlotCanvas(self)
         self.layout_plot.addWidget(self.plot_canvas)
-
-        self.detail_plot_window = QtWidgets.QMainWindow()  # could put into .ui file
-        self.detail_plot_window.resize(1000,800)
-        self.detail_plot_canvas = PlotCanvas(self.detail_plot_window)
+        self.expr = ""
 
         self.calculate.clicked.connect(self.do_calc)
         self.limit_expression.textChanged.connect(self.live_edit)
@@ -129,8 +127,14 @@ class UiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
             self.calculate.setGeometry(10, 270, 341, 61)
             self.show_details.show()
             self.line_2.show()
+
+            self.expr = expression.expr
         except (SympifyError, SyntaxError, TokenError) as err:
             result = 'Error: Invalid input'
+            # if error hide show_details button
+            self.calculate.setGeometry(10, 350, 341, 61)
+            self.show_details.hide()
+            self.line_2.hide()
 
         self.result.setText(str(result))
         if self.limit_value.text() in ['inf','∞','oo', '+inf', '+∞', '+oo']:
@@ -139,9 +143,18 @@ class UiSympy(QtWidgets.QMainWindow, uic.loadUiType(UI_FILE)[0]):
             self.limit_value.setText('-∞')
 
     def show_detailed_graph(self):
-        expr = parse_expr(self.limit_expression.text())
-        self.detail_plot_canvas.plot_sympy_expression(expr)
-        self.detail_plot_window.show()
+        # (!) copied
+        print(self.expr)
+        x_val = np.arange(-10_000, 10_000)
+        y_val = np.empty(20_000)
+        x_lam = lambdify(x, self.expr, modules=["numpy"])
+        y_val[:] = np.array(x_lam(x_val))
+
+        plt.close()
+        plt.plot([min(x_val), -1, 0, 1, max(x_val)], [0, 0, 0, 0, 0], 'r', color='black')
+        plt.plot([0, 0, 0, 0, 0], [min(y_val), -1, 0, 1, max(y_val)], 'r', color='black')
+        plt.plot(x_val, y_val, 'r', color="red")
+        plt.show()
 
 
 def main():
