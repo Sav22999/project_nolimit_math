@@ -77,7 +77,7 @@ Si può collaborare anche solo segnalando un problema o dando un consiglio.
 
 **NB. Viene effettuato il merge delle pr direttamente (e solamente) da Sav22999.**
 
-## OS su cui è testato il software
+## OS su cui è testato il software (e su cui si assicura completa compatibilità)
 Sono stati effettuati differenti test sui seguenti sistemi operativi, sui quali è garantita la compatibilità:
 - Kubuntu (18.04)
 - Ubuntu (18.04)
