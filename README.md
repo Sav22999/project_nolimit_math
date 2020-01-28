@@ -1,11 +1,10 @@
-## PROGETTO DI SAVERIO MORELLI
-## LICENZA GNU GPL v3, leggere file LICENSE
-#### Tutti i contenuti relativi a questo progetto sono sotto licenza GNU GPL v3 (incluso il codice e le immagini).
+# <img src="website/icona.png" width="40px" alt=""></img> NoLimit Math
 
-- Sito web Saverio Morelli: https://www.saveriomorelli.com/
-- Sito web progetto: https://www.saveriomorelli.com/nolimitmath/
+[![GitHub license](https://img.shields.io/github/license/Sav22999/project_nolimit_math.svg)](https://github.com/Sav22999/project_nolimit_math/blob/master/LICENSE) ![Maintenance](https://img.shields.io/badge/Maintained%3F-no-red.svg)
 
-![](sitoweb/smproject.png)![](sitoweb/smrealised.png)
+[<img src="website/a-project-of.png" width="200px"></img>](https://saveriomorelli.com) [<img src="website/realised-by.png" width="200px"></img>](https://saveriomorelli.com) 
+
+<img src="website/gplv3.png" width="100px"></img>
 
 
 ## Mappa README

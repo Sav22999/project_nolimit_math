@@ -11,7 +11,7 @@ body
 	font-family:Rockwell;
 	color:red;
 	background-attachment:fixed;
-	background-image:url("/nolimitmath/sfondo.png");
+	background-image:url("sfondo.png");
 	background-repeat:no-repeat;
 	background-position:center center;
 	background-size:cover;
